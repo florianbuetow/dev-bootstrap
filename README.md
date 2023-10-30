@@ -20,6 +20,9 @@ ln -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib/
 
 2.  Install [Nord theme for Sublimetext](https://www.nordtheme.com/ports/sublime-text) via package control. Then 'Select UI Color Scheme' via command palette to activate it.
 
+![sublime text with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext.png)
+sublime text with the nordtheme
+
 ## Java
 
 Note: This might not be needed, because you can install Java and Gradle through IntelliJ (if you use it). Otherwise install manually using:
