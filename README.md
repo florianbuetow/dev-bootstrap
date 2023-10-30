@@ -105,7 +105,7 @@ Get the code and import the xml file through Terminal settings
 [An arctic, north-bluish color palette.](https://www.nordtheme.com)
 
 
-![gotop running in a terminal with the nordtheme](https://github.com/florianbuetow/dev-bootstrap/images/gotop.png)
+![gotop running in a terminal with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/gotop.png)
 gotop running in a terminal with the nordtheme
 
 
