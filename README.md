@@ -1,2 +1,173 @@
 # dev-bootstrap
-Setting up a new Mac for development
+
+My notes for setting up my dev and coding environment on a new Mac.
+
+## Fonts
+
+Download, unpack and then open these fonts to install them:
+
+1. [IBM_Plex_Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)
+2. [JetBrainsMono](https://www.jetbrains.com/lp/mono/)
+
+## Sublimetext
+
+1. Download [Subilme Text](https://www.sublimetext.com)
+
+TIP: When package control is not working, do this and restart sublimetext.
+```bash
+ln -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib/
+```
+
+2.  Install [Nord theme for Sublimetext](https://www.nordtheme.com/ports/sublime-text) via package control. Then 'Select UI Color Scheme' via command palette to activate it.
+
+## Java
+
+Note: This might not be needed, because you can install Java and Gradle through IntelliJ (if you use it). Otherwise install manually using:
+
+```bash
+brew install openjdk
+
+# Add export PATH="/usr/local/opt/openjdk/bin:$PATH" to zsh shell config
+echo '' >> ~/.zshrc
+echo 'export PATH="/usr/local/opt/openjdk/bin:$PATH"' >> ~/.zshrc
+
+brew install gradle
+```
+
+## VSCODE
+
+Download VSCode at [code.visualstudio.com](https://code.visualstudio.com)
+
+### Themes
+
+Unless otherwhise noted, they can be installed through the Extension menu in VSCode. I like these themes:
+
+1. Horizon Theme  
+2. Jetbrains Mono Typeface
+3. [Nord Theme](https://marketplace.visualstudio.com/items?itemName=arcticicestudio.nord-visual-studio-code)
+
+### Extensions
+
+1. Extension: Font Switcher 
+2. Docker
+
+### Copilot
+
+1. GitHub Copilot
+2. GitHub Copilot Chat
+
+### GOLANG
+
+***Installing Extensions for VSCode ***
+
+Just install the Go extension from Google.
+
+***Getting go tools installed via VSCODE popup***
+
+This requires apple's developer tools, which can be installed from CLI without installing XCODE. Run the following in the terminal, and a new installation UI window should pop up:
+
+```bash
+xcode-select --instal
+```
+
+***Running fmt on save automatically***
+
+1. Install vs code extension "runonsave" from "emeraldwalk"
+2. Edit the settings.json and add:
+
+```json
+	"emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "\\.go$",
+        "cmd": "gofmt -w ${file}"
+      }
+    ]
+}
+```
+## Docker
+
+[Download](https://www.docker.com/products/docker-desktop/) and install docker desktop. 
+Then start it once. The starting ensures that docker and docker-compose are available in the CLI.
+
+## Terminal
+
+A nice theme for the OSX Terminal.
+
+Get the code and import the xml file through Terminal settings
+
+[Code and Instructions on Github](https://github.com/nordtheme/terminal-app)
+
+[An arctic, north-bluish color palette.](https://www.nordtheme.com)
+
+
+### tmux
+
+```bash
+brew install tmux
+```
+
+Install the plugin manager for tmux [TPM](https://github.com/tmux-plugins/tpm)
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Put this at the bottom of ~/.tmux.conf:
+
+```text
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+# Other examples:
+# set -g @plugin 'github_username/plugin_name'
+# set -g @plugin 'github_username/plugin_name#branch'
+# set -g @plugin 'git@github.com:user/plugin'
+# set -g @plugin 'git@bitbucket.com:user/plugin'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
+```
+
+[Install Nord theme for tmux](https://github.com/nordtheme/tmux) to match the VSCode theme installed earlier.
+
+1. Add
+```bash
+set -g @plugin "nordtheme/tmux"
+```
+to your tmux.conf, by default .tmux.conf located in your home directory.
+
+2. press the default key binding prefix + I to fetch- and install the plugin.
+
+Note: On a Mac its CTRL+b then press SHIFT+i. You should see a download and installed message on screen.
+
+
+### fzf
+```bash
+brew install fzf
+# To install useful key bindings and fuzzy completion:
+$(brew --prefix)/opt/fzf/install
+```
+
+### git
+
+```bash
+brew install git
+```
+
+TODO: How to setup github user and email in CLI
+
+### others CLI tools
+
+```bash
+brew install screen
+brew install watch
+brew install wget
+brew install htop
+brew install gotop
+brew install mc
+```
+
+## Slack
+
+Install [Nord theme for Slack](https://www.nordtheme.com/ports/slack)
