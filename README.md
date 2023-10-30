@@ -58,25 +58,29 @@ Unless otherwhise noted, they can be installed through the Extension menu in VSC
 
 ### GOLANG
 
-***Installing Extensions for VSCode ***
+***Installing Extensions for VSCode***
 
 Just install the Go extension from Google.
 
 ***Getting go tools installed via VSCODE popup***
 
-This requires apple's developer tools, which can be installed from CLI without installing XCODE. Run the following in the terminal, and a new installation UI window should pop up:
+The popup will show as soon as you start editing .go files in VSCode.
+
+To install the go tools, you need the apple's developer tools, which can be installed from CLI without installing XCODE (>4GB). Simply run the following in the terminal, and a new installation UI window should pop up specifically for the xcode developer tools:
 
 ```bash
-xcode-select --instal
+xcode-select --install
 ```
 
-***Running fmt on save automatically***
+***Running fmt for Go on save automatically***
+
+To avoid having to manually run fmt every time:
 
 1. Install vs code extension "runonsave" from "emeraldwalk"
 2. Edit the settings.json and add:
 
 ```json
-	"emeraldwalk.runonsave": {
+"emeraldwalk.runonsave": {
     "commands": [
       {
         "match": "\\.go$",
@@ -99,6 +103,9 @@ Get the code and import the xml file through Terminal settings
 [Code and Instructions on Github](https://github.com/nordtheme/terminal-app)
 
 [An arctic, north-bluish color palette.](https://www.nordtheme.com)
+
+![gotop running in a terminal with the nordtheme](gotop.png)
+gotop running in a terminal with the nordtheme
 
 
 ### tmux
