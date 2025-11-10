@@ -36,7 +36,7 @@ ln -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib/
 
 3. Install [Nord theme for Sublimetext](https://www.nordtheme.com/ports/sublime-text) via package control. Then 'Select UI Color Scheme' via command palette to activate it.
 
-![sublime text with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext.png)
+![sublime text with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext.jpg)
 sublime text with the nordtheme
 
 4. Set the font face to IBM Plex Mono by opening Sublime Text settings (Preferences → Settings) and adding:
@@ -46,7 +46,7 @@ sublime text with the nordtheme
 }
 ```
 
-![sublime text font face settings](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext_fontface.png)
+![sublime text font face settings](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext_fontface.jpg)
 sublime text font face settings
 
 ## Java
@@ -134,7 +134,7 @@ Get the code and import the xml file through Terminal settings
 [An arctic, north-bluish color palette.](https://www.nordtheme.com)
 
 
-![gotop running in a terminal with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/gotop.png)
+![gotop running in a terminal with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/gotop.jpg)
 gotop running in a terminal with the nordtheme
 
 
