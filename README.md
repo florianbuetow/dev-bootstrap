@@ -9,19 +9,45 @@ Download, unpack and then open these fonts to install them:
 1. [IBM_Plex_Mono](https://fonts.google.com/specimen/IBM+Plex+Mono)
 2. [JetBrainsMono](https://www.jetbrains.com/lp/mono/)
 
+## macOS Settings
+
+### Screenshot Format
+
+Change the screenshot file format to JPG (default is PNG):
+```bash
+defaults write com.apple.screencapture type jpg; killall SystemUIServer
+```
+
 ## Sublimetext
 
 1. Download [Subilme Text](https://www.sublimetext.com)
+
+2. Create a symlink to launch Sublime Text from the CLI:
+```bash
+sudo ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+```
+
+Now you can use `subl .` to open the current folder in Sublime Text.
 
 TIP: When package control is not working, do this and restart sublimetext.
 ```bash
 ln -sf /usr/local/Cellar/openssl@1.1/1.1.1o/lib/libcrypto.dylib /usr/local/lib/
 ```
 
-2.  Install [Nord theme for Sublimetext](https://www.nordtheme.com/ports/sublime-text) via package control. Then 'Select UI Color Scheme' via command palette to activate it.
+3. Install [Nord theme for Sublimetext](https://www.nordtheme.com/ports/sublime-text) via package control. Then 'Select UI Color Scheme' via command palette to activate it.
 
 ![sublime text with the nordtheme](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext.png)
 sublime text with the nordtheme
+
+4. Set the font face to IBM Plex Mono by opening Sublime Text settings (Preferences → Settings) and adding:
+```json
+{
+    "font_face": "IBM Plex Mono"
+}
+```
+
+![sublime text font face settings](https://raw.githubusercontent.com/florianbuetow/dev-bootstrap/main/images/sublimetext_fontface.png)
+sublime text font face settings
 
 ## Java
 
