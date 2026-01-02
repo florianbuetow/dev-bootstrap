@@ -205,6 +205,18 @@ brew install gotop
 brew install mc
 ```
 
+## Shell Functions
+
+This repo includes useful shell functions that can be sourced in your `.bashrc` or `.zshrc`:
+
+```bash
+for script in ~/Developer/github/dev-bootstrap/scripts/func_*.sh; do
+  source "$script"
+done
+```
+
+Available functions: `boop` (command completion announcements), `murder` (kill processes by PID/name/port), `natobar` (NATO phonetic converter), `tryna` (retry until success), and `trynafail` (run until failure). See the individual script files for detailed usage.
+
 ## Slack
 
 Install [Nord theme for Slack](https://www.nordtheme.com/ports/slack)
