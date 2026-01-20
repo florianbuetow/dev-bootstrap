@@ -662,6 +662,35 @@ To avoid having to manually run fmt every time:
 
 Install [Nord theme for Slack](https://www.nordtheme.com/ports/slack)
 
+### Pomodoro Timer
+
+A simple CLI Pomodoro timer for macOS.
+
+Requires [timer](https://github.com/caarlos0/timer) and [terminal-notifier](https://github.com/julienXX/terminal-notifier) to be installed:
+
+```bash
+brew install caarlos0/tap/timer
+brew install terminal-notifier
+```
+
+Then add these functions to your `.zshrc`:
+
+```bash
+work() {
+  # usage: work 10m, work 60s etc. Default is 20m
+  timer "${1:-20m}" && terminal-notifier -message 'Pomodoro'\
+        -title 'Work Timer is up! Take a Break 😊'\
+        -sound Crystal
+}
+
+rest() {
+  # usage: rest 10m, rest 60s etc. Default is 5m
+  timer "${1:-5m}" && terminal-notifier -message 'Pomodoro'\
+        -title 'Break is over! Get back to work 😬'\
+        -sound Crystal
+}
+```
+
 ### Create Project Directories
 
 Create standard directories for development work:
