@@ -699,3 +699,55 @@ Create standard directories for development work:
 mkdir -p ~/Developer
 mkdir -p ~/Projects
 ```
+
+## Phase 7: AI Coding Tools
+
+### Claude Code
+
+[Claude Code](https://code.claude.com/docs) is Anthropic's CLI coding agent.
+
+#### Install
+
+Install with the official installer (not Homebrew):
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+#### Global Settings
+
+My global settings are in [`claude-code/settings.json`](claude-code/settings.json). They apply to every project (per-project overrides go in a repo's own `.claude/settings.json`). Copy the file into place:
+
+```bash
+# from the dev-bootstrap repo root — merge into your existing settings.json if you already have one
+cp claude-code/settings.json ~/.claude/settings.json
+```
+
+The `permissions.allow` list pre-approves the read-only and project commands I use constantly so Claude Code stops prompting for each one; `permissions.deny` blocks broad or risky commands (raw `pip`/`python`, `find -exec`/`-delete`, `sqlite3`). The remaining keys:
+
+| Key | Effect |
+|-----|--------|
+| `alwaysThinkingEnabled` | Extended thinking on by default |
+| `effortLevel: "xhigh"` | Maximum reasoning effort |
+| `advisorModel: "opus"` | Use Opus for the advisor tool |
+| `env.ENABLE_LSP_TOOL` | Enable the LSP tool (language-server code intelligence); restart Claude Code after changing |
+| `theme: "auto"` | Follow the terminal's light/dark mode |
+| `voice` / `voiceEnabled` | Hold-to-talk voice dictation |
+
+> The `Read(//Users/flo/.claude/**)` allow rule hard-codes my home path — replace `/Users/flo` with your own. Permission rules don't expand `~`.
+
+#### Status Line (context window bar)
+
+A colored context-window progress bar for the status line (green → yellow → red as usage climbs). The script and install instructions live in my Claude Code repo: [scripts/claude-status](https://github.com/florianbuetow/claude-code/tree/main/scripts/claude-status). Copy it to a stable path, then point `statusLine.command` in `~/.claude/settings.json` at the absolute path.
+
+#### Plugins & Skills
+
+My Claude Code plugins and skills (architecture audits, spec-driven development, session tooling, and more) are published as a marketplace in [florianbuetow/claude-code](https://github.com/florianbuetow/claude-code):
+
+```bash
+# Add the marketplace (one time)
+claude plugin marketplace add florianbuetow/claude-code
+
+# Install any plugin by name, then restart Claude Code
+claude plugin install <plugin-name>
+```
