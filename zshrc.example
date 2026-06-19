@@ -1,0 +1,107 @@
+# dev-bootstrap zsh template
+#
+# Copy or merge the blocks you want into ~/.zshrc. Keep secrets in a private
+# file and never commit machine-local API keys.
+
+setopt extendedglob
+
+export HOMEBREW_NO_ENV_HINTS=1
+export PROMPT='%~ %# '
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+export BEADS_DOLT_SHARED_SERVER=1
+export N8N_SECURE_COOKIE=false
+export BLOG_DIR="$HOME/Blog/"
+export HEXAI_OPENAI_API_KEY="${HEXAI_OPENAI_API_KEY:-not-needed-for-lmstudio}"
+
+# History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt APPEND_HISTORY
+unsetopt SHARE_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# Private machine-local secrets
+# Suggested contents:
+# export PERPLEXITY_API_KEY="..."
+# export HEX_API_KEY="..."
+# export HF_TOKEN="..."
+[ -f "$HOME/.config/dev-bootstrap/secrets.zsh" ] && source "$HOME/.config/dev-bootstrap/secrets.zsh"
+
+# PATH entries
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/Library/TeX/texbin:$PATH"
+export PATH="$HOME/.lmstudio/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.grok/bin:$PATH"
+export PATH="$HOME/.kimi-code/bin:$PATH"
+
+export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+
+# Bun
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Lazy NVM. This puts the default node on PATH for non-interactive tools, then
+# loads full NVM only when nvm/node/npm/npx are first used.
+export NVM_DIR="$HOME/.nvm"
+_nvm_resolve_alias() {
+  local alias="$1" resolved depth=0
+  while [[ $depth -lt 10 ]]; do
+    [[ -f "$NVM_DIR/alias/$alias" ]] || break
+    resolved=$(cat "$NVM_DIR/alias/$alias" | tr -d '[:space:]')
+    [[ "$resolved" == v* ]] && { echo "$resolved"; return; }
+    alias="$resolved"
+    (( depth++ ))
+  done
+  ls -v "$NVM_DIR/versions/node/" 2>/dev/null | tail -1
+}
+_nvm_default_version=$(_nvm_resolve_alias "default")
+_nvm_default_bin="$NVM_DIR/versions/node/$_nvm_default_version/bin"
+[[ -d "$_nvm_default_bin" ]] && export PATH="$_nvm_default_bin:$PATH"
+unset -f _nvm_resolve_alias
+unset _nvm_default_bin _nvm_default_version
+
+nvm() {
+  unfunction nvm node npm npx 2>/dev/null
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+  nvm "$@"
+}
+node() { nvm --version >/dev/null 2>&1; unfunction node 2>/dev/null; command node "$@"; }
+npm()  { nvm --version >/dev/null 2>&1; unfunction npm 2>/dev/null; command npm "$@"; }
+npx()  { nvm --version >/dev/null 2>&1; unfunction npx 2>/dev/null; command npx "$@"; }
+
+# Completions
+fpath=("$HOME/scripts/completions" "$HOME/.grok/completions/zsh" $fpath)
+autoload -Uz compinit
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+# Version managers and navigation
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
+[[ ! -r "$HOME/.opam/opam-init/init.zsh" ]] || source "$HOME/.opam/opam-init/init.zsh" >/dev/null 2>/dev/null
+
+# Source dev-bootstrap helpers.
+DEV_BOOTSTRAP_DIR="$HOME/Developer/github/dev-bootstrap"
+for script in "$DEV_BOOTSTRAP_DIR"/scripts/func_*.sh; do
+  [ -f "$script" ] && source "$script"
+done
+[ -f "$DEV_BOOTSTRAP_DIR/scripts/wrap_functions.sh" ] && source "$DEV_BOOTSTRAP_DIR/scripts/wrap_functions.sh"
+[ -f "$DEV_BOOTSTRAP_DIR/scripts/yt-download/functions.sh" ] && source "$DEV_BOOTSTRAP_DIR/scripts/yt-download/functions.sh"
+[ -f "$DEV_BOOTSTRAP_DIR/scripts/claude-lmstudio.sh" ] && source "$DEV_BOOTSTRAP_DIR/scripts/claude-lmstudio.sh"
+[ -f "$DEV_BOOTSTRAP_DIR/scripts/pi-lmstudio.sh" ] && source "$DEV_BOOTSTRAP_DIR/scripts/pi-lmstudio.sh"
+[ -f "$DEV_BOOTSTRAP_DIR/scripts/aliases.sh" ] && source "$DEV_BOOTSTRAP_DIR/scripts/aliases.sh"

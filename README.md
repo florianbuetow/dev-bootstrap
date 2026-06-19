@@ -111,6 +111,15 @@ brew install git-lfs
 
 ### Shell Configuration
 
+The current curated shell template lives in [`zshrc.example`](zshrc.example).
+It captures the live setup shape from this machine while keeping API keys and
+private machine state out of version control.
+
+```bash
+# Review first, then copy or merge selected blocks into your own shell config.
+less zshrc.example
+```
+
 #### Essential PATH Configuration
 
 Add to your `.zshrc`:
@@ -133,17 +142,24 @@ compinit
 
 Note: Create `~/scripts/completions` directory if you want to add custom completion scripts.
 
+This repo includes a zsh completion for `guard`:
+
+```bash
+mkdir -p ~/scripts/completions
+cp scripts/completions/_guard ~/scripts/completions/
+```
+
 #### Zsh History Settings
 
 Add to your `.zshrc` for better history management:
 
-```bash
+```zsh
 # History Configuration
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt INC_APPEND_HISTORY      # Append history incrementally as commands are entered
-setopt SHARE_HISTORY           # Share history across all open zsh sessions
+setopt APPEND_HISTORY          # Save history when each session exits
+unsetopt SHARE_HISTORY         # Do not share history live between sessions
 setopt EXTENDED_HISTORY        # Include timestamps in history entries
 setopt HIST_EXPIRE_DUPS_FIRST  # Remove duplicates when trimming full history
 setopt extendedglob            # Enable case-insensitive and modifier globs
@@ -151,100 +167,125 @@ setopt extendedglob            # Enable case-insensitive and modifier globs
 
 #### Shell Functions from Scripts
 
-This repo includes useful shell functions that can be sourced in your `.bashrc` or `.zshrc`:
+This repo includes useful shell functions that can be sourced from your `.zshrc`:
 
-```bash
+```zsh
 for script in ~/Developer/github/dev-bootstrap/scripts/func_*.sh; do
   source "$script"
 done
+
+[ -f ~/Developer/github/dev-bootstrap/scripts/wrap_functions.sh ] && source ~/Developer/github/dev-bootstrap/scripts/wrap_functions.sh
+[ -f ~/Developer/github/dev-bootstrap/scripts/yt-download/functions.sh ] && source ~/Developer/github/dev-bootstrap/scripts/yt-download/functions.sh
+[ -f ~/Developer/github/dev-bootstrap/scripts/claude-lmstudio.sh ] && source ~/Developer/github/dev-bootstrap/scripts/claude-lmstudio.sh
+[ -f ~/Developer/github/dev-bootstrap/scripts/pi-lmstudio.sh ] && source ~/Developer/github/dev-bootstrap/scripts/pi-lmstudio.sh
+[ -f ~/Developer/github/dev-bootstrap/scripts/aliases.sh ] && source ~/Developer/github/dev-bootstrap/scripts/aliases.sh
 ```
 
-Available functions: `boop` (command completion announcements), `murder` (kill processes by PID/name/port), `natobar` (NATO phonetic converter), `tryna` (retry until success), and `trynafail` (run until failure). See the individual script files for detailed usage.
+Available functions: `boop` (command completion announcements), `cdr` (change to git repo root), `murder` (kill processes by PID/name/port), `natobar` (NATO phonetic converter), `tryna` (retry until success), `trynafail` (run until failure), `wrap` (tmux sessions by working directory), `video-download` (YouTube video downloader with browser cookies), `claudex` (Claude Code through LM Studio), and `pix` (Pi through LM Studio). `scripts/aliases.sh` contains the interactive aliases and wrappers such as `q`, `cdp`, `cdd`, `cdg`, `cdx`, `cdb`, `cdlc`, `j`, `sonnet`, `haiku`, `opus`, titlecase/uppercase Claude model wrappers, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, and the Codex model aliases.
 
 #### Useful Aliases
 
-Add to your `.bashrc` or `.zshrc`:
+Most aliases live in [`scripts/aliases.sh`](scripts/aliases.sh). Source that file from `.zshrc` instead of copying aliases individually:
 
-```bash
+```zsh
+[ -f ~/Developer/github/dev-bootstrap/scripts/aliases.sh ] && source ~/Developer/github/dev-bootstrap/scripts/aliases.sh
+```
+
+Highlights include:
+
+```zsh
 # Quick shortcuts
 alias q='exit'
-alias cls='clear && git rev-parse --is-inside-work-tree &>/dev/null && git status'
+alias cls='clear && showGitStatusWhenInRepo'
+
+# Common command shortcuts
+alias j='just'
+alias jj='just'
+alias ci='just ci-quiet && git status'
+alias 888='npx n8n start'
+alias ccusage='uvx sniffly@latest init'
+alias cusage='uvx sniffly@latest init'
+alias ccc='uvx sniffly@latest init'
 
 # Enhanced ls commands
 alias ld='echo && ls -Alhd */ && echo'  # List only directories
 alias dsdestroy='find . -name .DS_Store -delete'  # Remove all .DS_Store files
+alias ls='eza --icons'
+alias ll='eza -la --icons --git'
+alias lt='eza --tree --level=2 --icons'
 
 # Quick navigation to project directories
-alias cdd='clear && cd ~/Developer/ && ls -Alhd */ && echo'
-alias cdp='clear && cd ~/Projects/ && ls -Alhd */ && echo'
+alias cdd='clear && cd ~/Developer/ && printcodingprojects && ls -Alhd */ && echo'
+alias cdp='clear && cd ~/Projects/ && printprojects && ls -Alhd */ && echo && [[ -x ~/Projects/show-recent-projects.sh ]] && ~/Projects/show-recent-projects.sh'
+alias cdg='clear && cd ~/Developer/github/ && printcodingprojects && ls -Alhd */ && echo'
+alias cdx='clear && cd ~/Developer/github/x-rag && printxragproject && ls -A && echo'
+alias cdb='clear && cd ~/Developer/Blog/40-published/hugo-blog && git status && echo'
+alias cdlc='clear && cd ~/Developer/github/coding-challenges && cc'
+
+# Claude Code wrappers
+sonnet "prompt"
+haiku "prompt"
+opus "prompt"
+Sonnet "prompt"
+SONNET "prompt"
+Opus "prompt"
+OPUS "prompt"
+Haiku "prompt"
+HAIKU "prompt"
 ```
+
+#### Adding More Zsh Helpers
+
+Keep reusable aliases and interactive wrappers in [`scripts/aliases.sh`](scripts/aliases.sh).
+Keep reusable shell functions in `scripts/func_*.sh` or another sourced helper file,
+then source that file from [`zshrc.example`](zshrc.example). Avoid duplicating
+function bodies directly in `.zshrc`.
 
 #### Useful Functions
 
-Add to your `.bashrc` or `.zshrc`:
+The useful interactive helpers from the live `.zshrc` are kept in
+[`scripts/aliases.sh`](scripts/aliases.sh) and loaded through
+[`zshrc.example`](zshrc.example). This keeps the setup additive without copying
+stale function bodies into multiple places.
 
-```bash
-# Enhanced ls with blank lines for readability
-l() {
-    echo
-    ls -A "$@"
-    echo
-}
+Highlights include:
 
-ll() {
-    echo
-    ls -Alh "$@"
-    echo
-}
-
-# Clear and show git status
-ss() {
-    clear
-    echo
-    if git rev-parse --is-inside-work-tree &>/dev/null; then
-        git status
-    else
-        echo "Not inside a git repository."
-    fi
-    echo
-}
-
-# Quick Claude wrapper: x do something → claude "Please do something"
-x() {
-    claude "Please $*"
-}
-
-# Claude Code project starter with optional additional prompt
-# Usage: cc [additional prompt text]
-cc() {
-    if [ -z "$*" ]; then
-        claude "Please read @CLAUDE.md and familiarize yourself with all other markdown files in the current folder. Let me know when you are ready to continue working on this project."
-    else
-        claude "Please read @CLAUDE.md and familiarize yourself with all other markdown files in the current folder. Let me know when you are ready to continue working on this project. $*"
-    fi
-}
-
-# Convert all PNGs to JPGs (macOS only - uses sips)
-png2jpg() {
-    local file filename
-    local converted_count=0
-
-    # Loop over all files ending in .png (case-insensitive)
-    for file in (#i)*.png(.); do
-        filename="${file%.*}"
-        sips -s format jpeg -s formatOptions 98 "$file" --out "${filename}.jpg"
-        echo "Converted $file to ${filename}.jpg"
-        rm "$file"
-        ((converted_count++))
-    done
-
-    if (( converted_count > 0 )); then
-        echo "Conversion complete! Converted $converted_count files."
-    else
-        echo "No .png files found to convert."
-    fi
-}
+```zsh
+l                 # Enhanced ls with blank lines
+ld                # List directories
+ss                # Clear screen and show git status when inside a repo
+x "prompt"        # Quick Claude wrapper
+xx "prompt"       # Raw Claude wrapper
+cc "prompt"       # Claude project onboarding wrapper
+work 20m          # Work timer
+rest 5m           # Break timer
+loop 10s "date"   # Repeat a command at an interval
+mux mysession     # Create/attach a tmux work layout
+png2jpg           # Convert PNG files in the current directory to JPG
+ytt URL           # Start the YouTube transcription workflow
 ```
+
+The live `.zshrc` helpers that used to be copied inline are represented in
+[`scripts/aliases.sh`](scripts/aliases.sh), including `l`, `ld`, `ss`, `x`,
+`xx`, `cc`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, `snow`, and the
+Claude/Codex model wrappers.
+
+#### Secrets
+
+Keep API keys and machine-private values outside this repo. Source them from a
+private file:
+
+```zsh
+mkdir -p ~/.config/dev-bootstrap
+touch ~/.config/dev-bootstrap/secrets.zsh
+chmod 600 ~/.config/dev-bootstrap/secrets.zsh
+
+# In ~/.zshrc
+[ -f "$HOME/.config/dev-bootstrap/secrets.zsh" ] && source "$HOME/.config/dev-bootstrap/secrets.zsh"
+```
+
+Suggested private values from the live machine setup: `PERPLEXITY_API_KEY`,
+`HEX_API_KEY`, and `HF_TOKEN`.
 
 ### fzf
 
@@ -367,6 +408,11 @@ Then install Node.js:
 nvm install --lts
 nvm use --lts
 ```
+
+For shells that need `node`, `npm`, or `npx` available to non-interactive
+processes before full NVM initialization, use the lazy-load NVM block in
+[`zshrc.example`](zshrc.example). This is useful for agent tools and MCP
+servers launched from shells that do not source all interactive startup code.
 
 ### Python Tooling
 
@@ -539,6 +585,43 @@ brew install semgrep
 # Media tools
 brew install yt-dlp
 brew install exiftool
+
+# Shell quality-of-life
+brew install eza
+brew install glow
+brew install tldr
+brew install zoxide
+
+# Media and transcription helpers
+brew install ffmpeg
+
+# tmux-auto-attach dependency
+brew install flock
+```
+
+### Media Helpers
+
+This repository includes script-safe media helpers copied from the live machine
+setup:
+
+```bash
+# Download a YouTube audio stream. stdout is only the downloaded path.
+scripts/ytdl-audio.sh "https://youtu.be/VIDEO_ID"
+
+# Download a YouTube video. stdout is only the downloaded path.
+scripts/ytdl-video.sh "https://youtu.be/VIDEO_ID"
+
+# Transcribe a local file or URL through the local Whisper/MLX pipeline.
+scripts/transcribe.sh INPUT [OUTPUT] [NAMESPACE] [MODEL] [LANGUAGE]
+```
+
+`scripts/transcribe.sh` expects the separate transcription project at
+`~/Developer/github/batch-transcribe-with-whisper-mlx-local-apple-silicon`.
+Keep that project as its own repo; this bootstrap repo only carries the wrapper.
+
+```bash
+mkdir -p ~/Developer/github
+git clone https://github.com/florianbuetow/batch-transcribe-with-whisper-mlx-local-apple-silicon.git ~/Developer/github/batch-transcribe-with-whisper-mlx-local-apple-silicon
 ```
 
 ### Container & Kubernetes Tools
@@ -698,6 +781,51 @@ Create standard directories for development work:
 ```bash
 mkdir -p ~/Developer
 mkdir -p ~/Projects
+mkdir -p ~/scripts
+```
+
+### External Script Repositories
+
+Some live `~/scripts` content is substantial enough to remain separate and be
+cloned during bootstrap instead of vendored here.
+
+#### AI Templates
+
+Project bootstrap templates for AI-assisted development:
+
+```bash
+mkdir -p ~/scripts
+git clone https://github.com/florianbuetow/ai-templates.git ~/scripts/ai-templates
+```
+
+Then add the aliases from [`zshrc.example`](zshrc.example), such as `newpy`,
+`newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, and `update-templates`.
+
+#### tmux-auto-attach
+
+Watcher utilities for attaching multiple terminals to different tmux sessions:
+
+```bash
+mkdir -p ~/scripts
+git clone https://github.com/florianbuetow/tmux-auto-attach.git ~/scripts/tmux-auto-attach
+cd ~/scripts/tmux-auto-attach
+just init
+```
+
+Useful aliases:
+
+```bash
+alias tmon='(cd ~/scripts/tmux-auto-attach && just attach)'
+alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
+```
+
+#### AI Guardrails
+
+`ai-guardrails` appears to overlap with `ai-templates`. Keep it separate unless
+you still need the older template set:
+
+```bash
+git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardrails
 ```
 
 ## Phase 7: AI Coding Tools
@@ -738,7 +866,7 @@ The `permissions.allow` list pre-approves the read-only and project commands I u
 
 #### Status Line (context window bar)
 
-A colored context-window progress bar for the status line (green → yellow → red as usage climbs). The script and install instructions live in my Claude Code repo: [scripts/claude-status](https://github.com/florianbuetow/claude-code/tree/main/scripts/claude-status). Copy it to a stable path, then point `statusLine.command` in `~/.claude/settings.json` at the absolute path.
+A colored context-window progress bar for the status line (green → yellow → red as usage climbs). This repo includes a local version at [`scripts/claude-context-status.sh`](scripts/claude-context-status.sh). Point `statusLine.command` in `~/.claude/settings.json` at its absolute path.
 
 #### Plugins & Skills
 
@@ -751,3 +879,33 @@ claude plugin marketplace add florianbuetow/claude-code
 # Install any plugin by name, then restart Claude Code
 claude plugin install <plugin-name>
 ```
+
+The observed user-level plugin inventory and install commands are documented in
+[`claude-code/plugins.md`](claude-code/plugins.md). That file lists plugin IDs
+and marketplace install commands only; plugin source/cache directories are not
+included in this repo.
+
+### LM Studio Agent Wrappers
+
+The live shell setup includes wrappers for running agent CLIs against local LM
+Studio models:
+
+- [`scripts/claude-lmstudio.sh`](scripts/claude-lmstudio.sh) provides `claudex`
+  for Claude Code.
+- [`scripts/pi-lmstudio.sh`](scripts/pi-lmstudio.sh) provides `pix` for Pi.
+
+Both wrappers expect LM Studio's `lms` CLI at `~/.lmstudio/bin/lms`, require
+`jq`, and require the LM Studio server to be running:
+
+```bash
+lms server start
+```
+
+Source the scripts from `.zshrc` as shown in [`zshrc.example`](zshrc.example).
+
+### Codex CLI Shortcuts
+
+[`zshrc.example`](zshrc.example) includes model/effort aliases for Codex CLI,
+for example `codex-55`, `codex-55-low`, `codex-55-med`, and `codex-55-high`.
+Keep these aliases in the shell template rather than hard-coding them into
+project-local scripts.
