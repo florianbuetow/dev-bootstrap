@@ -43,14 +43,16 @@ alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
 # Guard
 alias ginit='guard init 0750 root users'
 
-# AI project templates. Clone ai-templates into ~/scripts first.
-alias newpy='~/scripts/ai-templates/project-setup/setup-project-python-claude.sh'
-alias newgo='~/scripts/ai-templates/project-setup/setup-project-go-claude.sh'
-alias newjava='~/scripts/ai-templates/project-setup/setup-project-java-claude.sh'
-alias newelixir='~/scripts/ai-templates/project-setup/setup-project-elixir-claude.sh'
-alias newrust='~/scripts/ai-templates/project-setup/setup-project-rust-claude.sh'
-alias newcpp='~/scripts/ai-templates/project-setup/setup-project-cpp-claude.sh'
-alias update-templates='cd ~/scripts/ai-templates && git pull && cd - >/dev/null'
+# AI project templates. Clone ai-guardrails into ~/scripts first.
+alias newpy='~/scripts/ai-guardrails/project-setup/setup-project-python-claude.sh'
+alias newgo='~/scripts/ai-guardrails/project-setup/setup-project-go-claude.sh'
+alias newjava='~/scripts/ai-guardrails/project-setup/setup-project-java-claude.sh'
+alias newelixir='~/scripts/ai-guardrails/project-setup/setup-project-elixir-claude.sh'
+alias newrust='~/scripts/ai-guardrails/project-setup/setup-project-rust-claude.sh'
+alias newcpp='~/scripts/ai-guardrails/project-setup/setup-project-cpp-claude.sh'
+alias newkotlin='~/scripts/ai-guardrails/project-setup/setup-project-kotlin-claude.sh'
+alias newgamecpp='~/scripts/ai-guardrails/project-setup/setup-project.sh --template cpp-3dgame-base --target'
+alias update-templates='cd ~/scripts/ai-guardrails && git pull && cd - >/dev/null'
 alias changelog='sonnet "load and use the changelog skill, then commit the updated CHANGELOG.md file and push it if a remote repository is configured, otherwise skip pushing"'
 
 printcodingprojects() {
