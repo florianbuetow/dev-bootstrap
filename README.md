@@ -798,9 +798,9 @@ mkdir -p ~/scripts
 git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardrails
 ```
 
-Then add the aliases from [`zshrc.example`](zshrc.example), such as `newpy`,
-`newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, `newkotlin`, `newgamecpp`,
-and `update-templates`.
+Then add the aliases from [`scripts/aliases.sh`](scripts/aliases.sh), such as
+`newpy`, `newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, `newkotlin`,
+`newgamecpp`, and `update-templates`.
 
 #### tmux-auto-attach
 
