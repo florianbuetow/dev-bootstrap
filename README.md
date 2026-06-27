@@ -789,17 +789,18 @@ mkdir -p ~/scripts
 Some live `~/scripts` content is substantial enough to remain separate and be
 cloned during bootstrap instead of vendored here.
 
-#### AI Templates
+#### AI Guardrails
 
 Project bootstrap templates for AI-assisted development:
 
 ```bash
 mkdir -p ~/scripts
-git clone https://github.com/florianbuetow/ai-templates.git ~/scripts/ai-templates
+git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardrails
 ```
 
 Then add the aliases from [`zshrc.example`](zshrc.example), such as `newpy`,
-`newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, and `update-templates`.
+`newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, `newkotlin`, `newgamecpp`,
+and `update-templates`.
 
 #### tmux-auto-attach
 
@@ -817,15 +818,6 @@ Useful aliases:
 ```bash
 alias tmon='(cd ~/scripts/tmux-auto-attach && just attach)'
 alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
-```
-
-#### AI Guardrails
-
-`ai-guardrails` appears to overlap with `ai-templates`. Keep it separate unless
-you still need the older template set:
-
-```bash
-git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardrails
 ```
 
 ## Phase 7: AI Coding Tools
