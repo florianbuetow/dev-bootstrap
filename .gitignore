@@ -4,3 +4,7 @@
 
 # Local OMX runtime state
 .omx/
+
+# Locally generated data from scripts (e.g. yt-download archive)
+downloaded.txt
+**/downloaded.txt
