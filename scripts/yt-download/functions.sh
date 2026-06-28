@@ -10,7 +10,7 @@ _video-download() {
     fi
 
     yt-dlp --cookies-from-browser chrome \
-           --download-archive "$HOME/scripts/yt-download/downloaded.txt" \
+           --download-archive "$HOME/scripts/dev-bootstrap/scripts/yt-download/downloaded.txt" \
            --format "bestvideo+bestaudio/best" \
            --extractor-args "youtube:player_client=web" \
            "$1"
