@@ -2,6 +2,31 @@
 
 My notes for setting up my dev and coding environment on a new Mac.
 
+## Quick Start — shell integration
+
+Clone this repo (and the `ai-guardrails` templates) into `~/scripts`:
+
+```bash
+mkdir -p ~/scripts
+git clone https://github.com/florianbuetow/dev-bootstrap.git ~/scripts/dev-bootstrap
+git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardrails
+```
+
+Then add a single line to your `~/.zshrc` (before any `compinit` line) and reload:
+
+```zsh
+[ -f "$HOME/scripts/dev-bootstrap/scripts/source.sh" ] && source "$HOME/scripts/dev-bootstrap/scripts/source.sh"
+```
+
+```bash
+source ~/.zshrc
+```
+
+[`scripts/source.sh`](scripts/source.sh) sources every shared alias and helper
+function, puts `~/scripts/dev-bootstrap/scripts` on your `PATH`, and adds the
+bundled zsh completions to `fpath`. The rest of this document is install detail
+and per-tool setup.
+
 ## Phase 1: System Foundation
 
 ### Homebrew Installation
@@ -167,28 +192,31 @@ setopt extendedglob            # Enable case-insensitive and modifier globs
 
 #### Shell Functions from Scripts
 
-This repo includes useful shell functions that can be sourced from your `.zshrc`:
+These load automatically via [`scripts/source.sh`](scripts/source.sh) (see
+[Quick Start](#quick-start--shell-integration)). It sources:
+
+- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `cdp`, `cdd`, `cdg`, `cdx`, `cdb`, `cdlc`, `j`, `sonnet`/`haiku`/`opus`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, `tmon`/`tstat`, `findt`/`findtt`, ...)
+- `wrap_functions.sh` — `wrap` (tmux sessions keyed to the working directory)
+- `func_cdr.sh` — `cdr` (cd to the git repo root)
+- `yt-download/functions.sh` — `video-download` (YouTube downloader with browser cookies)
+- `claude-lmstudio.sh` / `pi-lmstudio.sh` — `claudex` / `pix` (agents via local LM Studio)
+
+The repo also ships extra helpers in `scripts/func_*.sh` — `boop`, `cdb`,
+`murder`, `natobar`, `tryna`, `trynafail` — which are **not** loaded by
+`source.sh`. Source the ones you want, or glob them all from your `.zshrc`:
 
 ```zsh
-for script in ~/Developer/github/dev-bootstrap/scripts/func_*.sh; do
-  source "$script"
-done
-
-[ -f ~/Developer/github/dev-bootstrap/scripts/wrap_functions.sh ] && source ~/Developer/github/dev-bootstrap/scripts/wrap_functions.sh
-[ -f ~/Developer/github/dev-bootstrap/scripts/yt-download/functions.sh ] && source ~/Developer/github/dev-bootstrap/scripts/yt-download/functions.sh
-[ -f ~/Developer/github/dev-bootstrap/scripts/claude-lmstudio.sh ] && source ~/Developer/github/dev-bootstrap/scripts/claude-lmstudio.sh
-[ -f ~/Developer/github/dev-bootstrap/scripts/pi-lmstudio.sh ] && source ~/Developer/github/dev-bootstrap/scripts/pi-lmstudio.sh
-[ -f ~/Developer/github/dev-bootstrap/scripts/aliases.sh ] && source ~/Developer/github/dev-bootstrap/scripts/aliases.sh
+for f in ~/scripts/dev-bootstrap/scripts/func_*.sh; do source "$f"; done
 ```
-
-Available functions: `boop` (command completion announcements), `cdr` (change to git repo root), `murder` (kill processes by PID/name/port), `natobar` (NATO phonetic converter), `tryna` (retry until success), `trynafail` (run until failure), `wrap` (tmux sessions by working directory), `video-download` (YouTube video downloader with browser cookies), `claudex` (Claude Code through LM Studio), and `pix` (Pi through LM Studio). `scripts/aliases.sh` contains the interactive aliases and wrappers such as `q`, `cdp`, `cdd`, `cdg`, `cdx`, `cdb`, `cdlc`, `j`, `sonnet`, `haiku`, `opus`, titlecase/uppercase Claude model wrappers, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, and the Codex model aliases.
 
 #### Useful Aliases
 
-Most aliases live in [`scripts/aliases.sh`](scripts/aliases.sh). Source that file from `.zshrc` instead of copying aliases individually:
+Most aliases live in [`scripts/aliases.sh`](scripts/aliases.sh), loaded for you by
+`source.sh` (see [Quick Start](#quick-start--shell-integration)). To source it on
+its own:
 
 ```zsh
-[ -f ~/Developer/github/dev-bootstrap/scripts/aliases.sh ] && source ~/Developer/github/dev-bootstrap/scripts/aliases.sh
+[ -f ~/scripts/dev-bootstrap/scripts/aliases.sh ] && source ~/scripts/dev-bootstrap/scripts/aliases.sh
 ```
 
 Highlights include:
@@ -804,20 +832,14 @@ Then add the aliases from [`scripts/aliases.sh`](scripts/aliases.sh), such as
 
 #### tmux-auto-attach
 
-Watcher utilities for attaching multiple terminals to different tmux sessions:
+Watcher utilities for attaching multiple terminals to different tmux sessions.
+These are now bundled in this repo at
+[`scripts/tmux-auto-attach/`](scripts/tmux-auto-attach), and the `tmon` / `tstat`
+aliases ship in [`scripts/aliases.sh`](scripts/aliases.sh) (loaded via
+`source.sh`). Initialise the lock folder once:
 
 ```bash
-mkdir -p ~/scripts
-git clone https://github.com/florianbuetow/tmux-auto-attach.git ~/scripts/tmux-auto-attach
-cd ~/scripts/tmux-auto-attach
-just init
-```
-
-Useful aliases:
-
-```bash
-alias tmon='(cd ~/scripts/tmux-auto-attach && just attach)'
-alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
+cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just init
 ```
 
 ## Phase 7: AI Coding Tools
