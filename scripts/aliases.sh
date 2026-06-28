@@ -1,7 +1,7 @@
 # Shared shell aliases and interactive helper functions for dev-bootstrap.
 #
 # Intended to be sourced from zsh:
-#   source ~/Developer/github/dev-bootstrap/scripts/aliases.sh
+#   source ~/scripts/dev-bootstrap/scripts/aliases.sh
 
 # Quick shortcuts
 alias q='exit'
@@ -37,12 +37,12 @@ alias cdg='clear && cd ~/Developer/github/ && printcodingprojects && ls -Alhd */
 alias cdb='clear && cd ~/Developer/Blog/40-published/hugo-blog && git status && echo'
 alias cdlc='clear && cd ~/Developer/github/coding-challenges && cc'
 alias attach='tmux attach-session -t'
-alias tmon='(cd ~/scripts/tmux-auto-attach && just attach)'
-alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
-alias findt='~/Developer/github/dev-bootstrap/scripts/term-switch.sh'
+alias tmon='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just attach)'
+alias tstat='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just status)'
+alias findt='~/scripts/dev-bootstrap/scripts/term-switch.sh'
 # findtt: same picker, but close the launching terminal after a successful jump
 # (the script exits 0 only when it jumped, so a cancel/ESC leaves the shell open)
-alias findtt='~/Developer/github/dev-bootstrap/scripts/term-switch.sh && exit'
+alias findtt='~/scripts/dev-bootstrap/scripts/term-switch.sh && exit'
 
 # Guard
 alias ginit='guard init 0750 root users'
