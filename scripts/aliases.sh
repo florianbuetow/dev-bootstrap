@@ -39,6 +39,10 @@ alias cdlc='clear && cd ~/Developer/github/coding-challenges && cc'
 alias attach='tmux attach-session -t'
 alias tmon='(cd ~/scripts/tmux-auto-attach && just attach)'
 alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
+alias findt='~/Developer/github/dev-bootstrap/scripts/term-switch.sh'
+# findtt: same picker, but close the launching terminal after a successful jump
+# (the script exits 0 only when it jumped, so a cancel/ESC leaves the shell open)
+alias findtt='~/Developer/github/dev-bootstrap/scripts/term-switch.sh && exit'
 
 # Guard
 alias ginit='guard init 0750 root users'
