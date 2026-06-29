@@ -11,7 +11,7 @@ _dbs="${HOME}/scripts/dev-bootstrap/scripts"
 # Shared aliases and helper functions
 [ -f "$_dbs/aliases.sh" ] && source "$_dbs/aliases.sh"
 [ -f "$_dbs/wrap_functions.sh" ] && source "$_dbs/wrap_functions.sh"
-[ -f "$_dbs/func_cdr.sh" ] && source "$_dbs/func_cdr.sh"
+for _f in "$_dbs"/func_*.sh(N); do source "$_f"; done   # cdr, murder, natobar, boop, cdb, tryna, trynafail
 [ -f "$_dbs/yt-download/functions.sh" ] && source "$_dbs/yt-download/functions.sh"
 [ -f "$_dbs/claude-lmstudio.sh" ] && source "$_dbs/claude-lmstudio.sh"
 [ -f "$_dbs/pi-lmstudio.sh" ] && source "$_dbs/pi-lmstudio.sh"
