@@ -55,23 +55,9 @@ alias newgamecpp='~/scripts/ai-guardrails/project-setup/setup-project-gamecpp-cl
 alias update-templates='cd ~/scripts/ai-guardrails && git pull && cd - >/dev/null'
 alias changelog='sonnet "load and use the changelog skill, then commit the updated CHANGELOG.md file and push it if a remote repository is configured, otherwise skip pushing"'
 
-printcodingprojects() {
-  clear
-  echo "CODE"
-  echo
-}
-
-printxragproject() {
-  clear
-  echo "X-RAG"
-  echo
-}
-
-printprojects() {
-  clear
-  echo "PROJECTS"
-  echo
-}
+# NOTE: the printcodingprojects / printxragproject / printprojects banner functions
+# are user-specific (used only by the personal cd* aliases) and now live in
+# ~/scripts/local-aliases.sh, not here.
 
 snow() {
   trap 'printf "\033[?25h"; clear; return' INT
@@ -283,15 +269,8 @@ mux() {
   tmux attach-session -t "$session"
 }
 
-ytt() {
-  if [[ -z "$1" ]]; then
-    echo "Usage: ytt <youtube-url>" >&2
-    return 1
-  fi
-  local url="$1"
-  local prompt="Please download the audio of the following youtube video ${url}, then one-off transcribe (with justfile) it using medium-en, clean the transcript and then open the cleaned transcript txt file using the subl command. When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
-  cd ~/Developer/github/batch-transcribe-with-whisper-mlx-local-apple-silicon/ && sonnet "$prompt"
-}
+# NOTE: the `ytt` workflow cd's into a user-specific repo path, so it now lives
+# in ~/scripts/local-aliases.sh, not here.
 
 # Claude Code wrappers
 x() {

@@ -195,7 +195,7 @@ setopt extendedglob            # Enable case-insensitive and modifier globs
 These load automatically via [`scripts/source.sh`](scripts/source.sh) (see
 [Quick Start](#quick-start--shell-integration)). It sources:
 
-- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, `tmon`/`tstat`, `findt`/`findtt`, ...)
+- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `tmon`/`tstat`, `findt`/`findtt`, ...)
 - `wrap_functions.sh` — `wrap` (tmux sessions keyed to the working directory)
 - `func_*.sh` — `cdr` (cd to git repo root), `boop`, `murder`, `natobar`, `tryna`, `trynafail`
 - `yt-download/functions.sh` — `video-download` (YouTube downloader with browser cookies)
@@ -280,13 +280,13 @@ rest 5m           # Break timer
 loop 10s "date"   # Repeat a command at an interval
 mux mysession     # Create/attach a tmux work layout
 png2jpg           # Convert PNG files in the current directory to JPG
-ytt URL           # Start the YouTube transcription workflow
 ```
 
 The live `.zshrc` helpers that used to be copied inline are represented in
 [`scripts/aliases.sh`](scripts/aliases.sh), including `l`, `ld`, `ss`, `x`,
-`xx`, `cc`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, `snow`, and the
-Claude/Codex model wrappers.
+`xx`, `cc`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `snow`, and the
+Claude/Codex model wrappers. (Personal `cd*` navigation, the banner functions,
+and `ytt` live in `~/scripts/local-aliases.sh`, not here.)
 
 #### Secrets
 
