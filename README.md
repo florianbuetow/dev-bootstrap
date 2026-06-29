@@ -195,19 +195,14 @@ setopt extendedglob            # Enable case-insensitive and modifier globs
 These load automatically via [`scripts/source.sh`](scripts/source.sh) (see
 [Quick Start](#quick-start--shell-integration)). It sources:
 
-- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `cdp`, `cdd`, `cdg`, `cdx`, `cdb`, `cdlc`, `j`, `sonnet`/`haiku`/`opus`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, `tmon`/`tstat`, `findt`/`findtt`, ...)
+- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `ytt`, `tmon`/`tstat`, `findt`/`findtt`, ...)
 - `wrap_functions.sh` — `wrap` (tmux sessions keyed to the working directory)
-- `func_cdr.sh` — `cdr` (cd to the git repo root)
+- `func_*.sh` — `cdr` (cd to git repo root), `boop`, `murder`, `natobar`, `tryna`, `trynafail`
 - `yt-download/functions.sh` — `video-download` (YouTube downloader with browser cookies)
 - `claude-lmstudio.sh` / `pi-lmstudio.sh` — `claudex` / `pix` (agents via local LM Studio)
 
-The repo also ships extra helpers in `scripts/func_*.sh` — `boop`, `cdb`,
-`murder`, `natobar`, `tryna`, `trynafail` — which are **not** loaded by
-`source.sh`. Source the ones you want, or glob them all from your `.zshrc`:
-
-```zsh
-for f in ~/scripts/dev-bootstrap/scripts/func_*.sh; do source "$f"; done
-```
+`source.sh` globs **all** `scripts/func_*.sh`, so every helper above loads
+automatically.
 
 #### Useful Aliases
 
@@ -242,13 +237,8 @@ alias ls='eza --icons'
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
 
-# Quick navigation to project directories
-alias cdd='clear && cd ~/Developer/ && printcodingprojects && ls -Alhd */ && echo'
-alias cdp='clear && cd ~/Projects/ && printprojects && ls -Alhd */ && echo && [[ -x ~/Projects/show-recent-projects.sh ]] && ~/Projects/show-recent-projects.sh'
-alias cdg='clear && cd ~/Developer/github/ && printcodingprojects && ls -Alhd */ && echo'
-alias cdx='clear && cd ~/Developer/github/x-rag && printxragproject && ls -A && echo'
-alias cdb='clear && cd ~/Developer/Blog/40-published/hugo-blog && git status && echo'
-alias cdlc='clear && cd ~/Developer/github/coding-challenges && cc'
+# Personal cd* navigation shortcuts (cdd/cdp/cdg/cdx/cdb/cdlc) reference
+# user-specific directories, so they live in ~/scripts/local-aliases.sh, not here.
 
 # Claude Code wrappers
 sonnet "prompt"
