@@ -156,23 +156,19 @@ export PATH="$HOME/.local/bin:$PATH"
 
 #### Shell Completions
 
-Add to your `.zshrc`:
+`source.sh` (see [Quick Start](#quick-start--shell-integration)) already adds this
+repo's `scripts/completions` directory to `fpath`, so the bundled `_guard`
+completion works as soon as the completion system is initialised. Make sure your
+`.zshrc` runs `compinit` **after** sourcing `source.sh`:
 
 ```bash
-# Shell completions
-fpath=(~/scripts/completions $fpath)
 autoload -Uz compinit
 compinit
 ```
 
-Note: Create `~/scripts/completions` directory if you want to add custom completion scripts.
-
-This repo includes a zsh completion for `guard`:
-
-```bash
-mkdir -p ~/scripts/completions
-cp scripts/completions/_guard ~/scripts/completions/
-```
+To add your own completions, drop `_<command>` files into a directory and prepend
+it to `fpath` before `compinit` — keep machine-specific ones in a local path, not
+in this repo.
 
 #### Zsh History Settings
 
