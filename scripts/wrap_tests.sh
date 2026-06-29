@@ -1,5 +1,7 @@
 #!/bin/zsh
-source /Users/flo/.zshrc 2>/dev/null
+# Self-contained: load the wrap functions directly from the sibling script
+# (no dependency on the user's ~/.zshrc or any path outside dev-bootstrap).
+source "${0:A:h}/wrap_functions.sh"
 
 echo "========================================"
 echo "  WRAP FUNCTION TEST SUITE"
@@ -54,9 +56,22 @@ cleanup() {
     for s in "${test_sessions_created[@]}"; do
         tmux kill-session -t "$s" 2>/dev/null && echo "  Killed: $s"
     done
+    [ -n "$WT" ] && rm -rf "$WT"
     echo
 }
 trap cleanup EXIT
+
+# Self-contained fixtures: a parent dir and a nested child dir, each with one
+# wrap session. The per-run $$ path guarantees the names never collide with the
+# user's real sessions, and they are cleaned up on exit.
+WT="${TMPDIR:-/tmp}/wraptest-$$"
+WT_PARENT="$WT/alpha"
+WT_CHILD="$WT/alpha/beta"
+PARENT_SESS="$WT_PARENT/#1"
+CHILD_SESS="$WT_CHILD/#2"
+mkdir -p "$WT_CHILD"
+tmux new-session -d -s "$PARENT_SESS"; test_sessions_created+=("$PARENT_SESS")
+tmux new-session -d -s "$CHILD_SESS";  test_sessions_created+=("$CHILD_SESS")
 
 # Count user's existing wrap sessions dynamically
 initial_wrap_count=$(_wrap_sessions | grep -c '.' 2>/dev/null || echo 0)
@@ -83,10 +98,10 @@ assert_eq "returns $initial_wrap_count wrap sessions" "$initial_wrap_count" "$co
 echo
 
 echo "--- TEST 3: _wrap_sessions filters by exact directory ---"
-pt_sessions=$(_wrap_sessions "~/Developer/private-tools")
-sc_sessions=$(_wrap_sessions "~/Developer/private-tools/screenshot-classifier")
-assert_not_contains "private-tools filter excludes screenshot-classifier" "screenshot-classifier" "$pt_sessions"
-assert_not_contains "screenshot-classifier filter excludes bare private-tools sessions" $'private-tools\t1\t~/' "$sc_sessions"
+pt_sessions=$(_wrap_sessions "$WT_PARENT")
+sc_sessions=$(_wrap_sessions "$WT_CHILD")
+assert_not_contains "parent filter excludes child sessions" "$CHILD_SESS" "$pt_sessions"
+assert_not_contains "child filter excludes parent sessions" "$PARENT_SESS" "$sc_sessions"
 # Verify they don't overlap
 pt_count=$(echo "$pt_sessions" | grep -c '.' 2>/dev/null || echo 0)
 sc_count=$(echo "$sc_sessions" | grep -c '.' 2>/dev/null || echo 0)
@@ -111,11 +126,11 @@ echo "--- TEST 5: wrap -i output formatting ---"
 info_output=$(wrap -i)
 assert_contains "shows header" "Wrap sessions:" "$info_output"
 assert_not_contains "does not show non-wrap session 'dev'" "dev:" "$info_output"
-# Check sort order: private-tools before screenshot-classifier (lexical)
-pt_line=$(echo "$info_output" | grep -n "private-tools/#" | head -1 | cut -d: -f1)
-sc_line=$(echo "$info_output" | grep -n "screenshot-classifier/#" | head -1 | cut -d: -f1)
+# Check sort order: parent dir before nested child dir (lexical)
+pt_line=$(echo "$info_output" | grep -nF "$WT_PARENT/#" | head -1 | cut -d: -f1)
+sc_line=$(echo "$info_output" | grep -nF "$WT_CHILD/#" | head -1 | cut -d: -f1)
 if [[ -n "$pt_line" && -n "$sc_line" ]] && (( pt_line < sc_line )); then
-    echo "  PASS: sorted lexically (private-tools before screenshot-classifier)"
+    echo "  PASS: sorted lexically (parent before child)"
     ((pass++))
 else
     echo "  FAIL: sort order wrong (pt=$pt_line, sc=$sc_line)"
@@ -124,7 +139,7 @@ fi
 echo
 
 echo "--- TEST 6: wrap -r shows correct selection numbers matching session numbers ---"
-cd /Users/flo/Developer/private-tools/screenshot-classifier
+cd "$WT_CHILD"
 reattach_output=$(echo "" | wrap -r 2>&1)
 # Session numbers in selector must match actual session numbers (not sequential 1,2,3)
 sc_nums=()
@@ -137,7 +152,7 @@ done
 echo
 
 echo "--- TEST 7: wrap -r from dir with no sessions ---"
-cd /Users/flo
+cd "$HOME"
 r_output=$(wrap -r 2>&1)
 r_exit=$?
 assert_eq "exit code 1" "1" "$r_exit"
@@ -183,14 +198,14 @@ assert_contains "already inside message" "Already inside a tmux session" "$guard
 echo
 
 echo "--- TEST 12: wrap -r works inside tmux (not blocked by guard) ---"
-cd /Users/flo/Developer/private-tools/screenshot-classifier
+cd "$WT_CHILD"
 r_inside=$(echo "" | TMUX="/tmp/tmux-501/default,12345,0" wrap -r 2>&1)
 assert_not_contains "not refused by tmux guard" "Already inside" "$r_inside"
 assert_contains "shows sessions listing" "Wrap sessions in" "$r_inside"
 echo
 
 echo "--- TEST 13: wrap -r rejects invalid selection ---"
-cd /Users/flo/Developer/private-tools/screenshot-classifier
+cd "$WT_CHILD"
 invalid_output=$(echo "999" | wrap -r 2>&1)
 assert_contains "invalid selection message" "Invalid selection" "$invalid_output"
 
@@ -208,7 +223,7 @@ assert_eq "no results for nonexistent path" "" "$empty_check"
 echo
 
 echo "--- TEST 15: wrap from \$HOME creates ~/#N session ---"
-cd /Users/flo
+cd "$HOME"
 expected_home=$((max_after + 1))
 tmux new-session -d -s "~/#${expected_home}"
 test_sessions_created+=("~/#${expected_home}")
@@ -232,7 +247,7 @@ assert_eq "second sorted is #10" "10" "$second_num"
 echo
 
 echo "--- TEST 17: wrap -d lists same sessions as wrap -r with correct [N] format ---"
-cd /Users/flo/Developer/private-tools/screenshot-classifier
+cd "$WT_CHILD"
 delete_list_output=$(echo "" | wrap -d 2>&1)
 assert_contains "shows delete header" "Wrap sessions in" "$delete_list_output"
 while IFS=$'\t' read -r dir num name; do
@@ -250,7 +265,7 @@ assert_contains "no sessions message" "No wrap sessions for this directory" "$d_
 echo
 
 echo "--- TEST 19: wrap -d rejects invalid selection ---"
-cd /Users/flo/Developer/private-tools/screenshot-classifier
+cd "$WT_CHILD"
 delete_invalid_output=$(echo "" | wrap -d 2>&1)
 assert_contains "empty delete selection rejected" "Invalid selection" "$delete_invalid_output"
 
