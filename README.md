@@ -619,23 +619,17 @@ brew install flock
 
 ### Media Helpers
 
-This repository includes script-safe media helpers copied from the live machine
-setup:
+YouTube download helpers (each prints only the downloaded path on stdout):
 
 ```bash
-# Download a YouTube audio stream. stdout is only the downloaded path.
 scripts/ytdl-audio.sh "https://youtu.be/VIDEO_ID"
-
-# Download a YouTube video. stdout is only the downloaded path.
 scripts/ytdl-video.sh "https://youtu.be/VIDEO_ID"
-
-# Transcribe a local file or URL through the local Whisper/MLX pipeline.
-scripts/transcribe.sh INPUT [OUTPUT] [NAMESPACE] [MODEL] [LANGUAGE]
 ```
 
-`scripts/transcribe.sh` expects the separate transcription project at
-`~/Developer/github/batch-transcribe-with-whisper-mlx-local-apple-silicon`.
-Keep that project as its own repo; this bootstrap repo only carries the wrapper.
+A Whisper/MLX `transcribe.sh` wrapper is intentionally **not** shipped here: it
+hard-codes a path to the separate `batch-transcribe-...` project under your home
+directory, so it belongs in a local-only location (e.g. `~/scripts/transcribe.sh`),
+not in this repo. Clone the transcription project separately:
 
 ```bash
 mkdir -p ~/Developer/github
