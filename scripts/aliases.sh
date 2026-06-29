@@ -30,12 +30,8 @@ alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
 
 # Navigation
-alias cdx='clear && cd ~/Developer/github/x-rag && printxragproject && ls -A && echo'
-alias cdp='clear && cd ~/Projects/ && printprojects && ls -Alhd */ && echo && [[ -x ~/Projects/show-recent-projects.sh ]] && ~/Projects/show-recent-projects.sh'
-alias cdd='clear && cd ~/Developer/ && printcodingprojects && ls -Alhd */ && echo'
-alias cdg='clear && cd ~/Developer/github/ && printcodingprojects && ls -Alhd */ && echo'
-alias cdb='clear && cd ~/Developer/Blog/40-published/hugo-blog && git status && echo'
-alias cdlc='clear && cd ~/Developer/github/coding-challenges && cc'
+# NOTE: personal `cd*` shortcuts (cdx/cdp/cdd/cdg/cdb/cdlc) reference user-specific
+# directories and live in the local-only ~/scripts/local-aliases.sh, not here.
 alias attach='tmux attach-session -t'
 alias tmon='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just attach)'
 alias tstat='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just status)'
