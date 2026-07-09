@@ -324,9 +324,9 @@ HAIKU() { haiku "$@" }
 
 sonnet() {
   if [ -n "$*" ]; then
-    claude --model sonnet --auto "$*"
+    claude --model sonnet --permission-mode auto "$*"
   else
-    claude --model sonnet --auto
+    claude --model sonnet --permission-mode auto
   fi
 }
 
@@ -335,9 +335,9 @@ SONNET() { sonnet "$@" }
 
 opus() {
   if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" --effort max --auto "$*"
+    claude --model "claude-opus-4-8" --effort max --permission-mode auto "$*"
   else
-    claude --model "claude-opus-4-8" --effort max --auto
+    claude --model "claude-opus-4-8" --effort max --permission-mode auto
   fi
 }
 
@@ -346,9 +346,9 @@ OPUS() { opus "$@" }
 
 fable() {
   if [ -n "$*" ]; then
-    claude --model "claude-fable-5" --auto "$*"
+    claude --model "claude-fable-5" --permission-mode auto "$*"
   else
-    claude --model "claude-fable-5" --auto
+    claude --model "claude-fable-5" --permission-mode auto
   fi
 }
 
