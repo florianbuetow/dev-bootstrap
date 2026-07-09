@@ -28,9 +28,6 @@ alias manpage='/usr/bin/man'
 alias ls='eza --icons'
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
-# li: list the gitignored files and folders in the current dir only (no recursion).
-# `command ls` bypasses the eza alias above, which would feed icons into git.
-alias li='command ls -A | git check-ignore --stdin'
 
 # Navigation
 # NOTE: personal `cd*` shortcuts (cdx/cdp/cdd/cdg/cdb/cdlc) reference user-specific
@@ -155,6 +152,12 @@ ld() {
   echo
   ls -Alhd */
   echo
+}
+
+# List the gitignored entries in one directory only, no recursion. Defaults to the
+# current dir. `command ls` bypasses the eza alias, which would feed icons into git.
+li() {
+  (cd "${1:-.}" && command ls -A | git check-ignore --stdin)
 }
 
 ss() {
