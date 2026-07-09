@@ -515,6 +515,8 @@ Then start it once. The starting ensures that docker and docker-compose are avai
 ├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
 │ mc               │ Midnight Commander - text-based file manager                                   │
 ├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+│ fswatch          │ A cross-platform file change monitor with multiple backends                    │
+├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
 │                  │                              GIT TOOLS                                         │
 ├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
 │ gh               │ GitHub CLI for managing repos, PRs, and issues                                 │
@@ -582,6 +584,7 @@ brew install fd
 brew install tree
 brew install dust
 brew install mc
+brew install fswatch
 
 # Network & development
 brew install wget

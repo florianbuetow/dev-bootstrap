@@ -255,6 +255,18 @@ loop() {
   done
 }
 
+# wt: watch trigger - re-run a command every time a file changes (via fswatch)
+wt() {
+  if [[ $# -lt 2 ]]; then
+    echo "Usage: wt <file> <command...>" >&2
+    echo "  Example: wt slides.md \"just pdf && open slides.pdf\"" >&2
+    return 1
+  fi
+
+  local file="$1"; shift
+  fswatch "$file" | xargs -n 1 -I {} zsh -c "$*"
+}
+
 mux() {
   local session="${1:-mysession}"
 
