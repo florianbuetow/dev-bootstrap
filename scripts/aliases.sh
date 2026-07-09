@@ -28,6 +28,8 @@ alias manpage='/usr/bin/man'
 alias ls='eza --icons'
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
+# li: list only the gitignored files and folders (fully ignored dirs collapse to one entry)
+alias li='git ls-files --others --ignored --exclude-standard --directory'
 
 # Navigation
 # NOTE: personal `cd*` shortcuts (cdx/cdp/cdd/cdg/cdb/cdlc) reference user-specific
