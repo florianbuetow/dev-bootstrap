@@ -324,9 +324,9 @@ HAIKU() { haiku "$@" }
 
 sonnet() {
   if [ -n "$*" ]; then
-    claude --model sonnet --effort medium --permission-mode auto "$*"
+    claude --model sonnet --effort low --permission-mode auto "$*"
   else
-    claude --model sonnet --effort medium --permission-mode auto
+    claude --model sonnet --effort low --permission-mode auto
   fi
 }
 
