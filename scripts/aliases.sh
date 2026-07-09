@@ -324,9 +324,9 @@ HAIKU() { haiku "$@" }
 
 sonnet() {
   if [ -n "$*" ]; then
-    claude --model sonnet "$*"
+    claude --model sonnet --auto "$*"
   else
-    claude --model sonnet
+    claude --model sonnet --auto
   fi
 }
 
@@ -335,14 +335,25 @@ SONNET() { sonnet "$@" }
 
 opus() {
   if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" --effort max "$*"
+    claude --model "claude-opus-4-8" --effort max --auto "$*"
   else
-    claude --model "claude-opus-4-8" --effort max
+    claude --model "claude-opus-4-8" --effort max --auto
   fi
 }
 
 Opus() { opus "$@" }
 OPUS() { opus "$@" }
+
+fable() {
+  if [ -n "$*" ]; then
+    claude --model "claude-fable-5" --auto "$*"
+  else
+    claude --model "claude-fable-5" --auto
+  fi
+}
+
+Fable() { fable "$@" }
+FABLE() { fable "$@" }
 
 ffhaiku() {
   if [ -n "$*" ]; then
