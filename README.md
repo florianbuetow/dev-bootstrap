@@ -191,7 +191,7 @@ setopt extendedglob            # Enable case-insensitive and modifier globs
 These load automatically via [`scripts/source.sh`](scripts/source.sh) (see
 [Quick Start](#quick-start--shell-integration)). It sources:
 
-- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `tmon`/`tstat`, `findt`/`findtt`, ...)
+- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`/`fable`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `tmon`/`tstat`, `findt`/`findtt`, ...)
 - `wrap_functions.sh` — `wrap` (tmux sessions keyed to the working directory)
 - `func_*.sh` — `cdr` (cd to git repo root), `boop`, `murder`, `natobar`, `tryna`, `trynafail`
 - `yt-download/functions.sh` — `video-download` (YouTube downloader with browser cookies)
@@ -237,15 +237,19 @@ alias lt='eza --tree --level=2 --icons'
 # user-specific directories, so they live in ~/scripts/local-aliases.sh, not here.
 
 # Claude Code wrappers
+# Note: `sonnet` runs Opus at low effort, not Sonnet. Use `ffsonnet` for Sonnet.
 sonnet "prompt"
 haiku "prompt"
 opus "prompt"
+fable "prompt"
 Sonnet "prompt"
 SONNET "prompt"
 Opus "prompt"
 OPUS "prompt"
 Haiku "prompt"
 HAIKU "prompt"
+Fable "prompt"
+FABLE "prompt"
 ```
 
 #### Adding More Zsh Helpers
