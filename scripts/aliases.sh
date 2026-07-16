@@ -52,6 +52,7 @@ alias newrust='~/scripts/ai-guardrails/project-setup/setup-project-rust-claude.s
 alias newcpp='~/scripts/ai-guardrails/project-setup/setup-project-cpp-claude.sh'
 alias newkotlin='~/scripts/ai-guardrails/project-setup/setup-project-kotlin-claude.sh'
 alias newgamecpp='~/scripts/ai-guardrails/project-setup/setup-project-gamecpp-claude.sh'
+alias newreact='~/scripts/ai-guardrails/project-setup/setup-project-typescript-claude.sh'
 alias update-templates='cd ~/scripts/ai-guardrails && git pull && cd - >/dev/null'
 alias changelog='sonnet "load and use the changelog skill, then commit the updated CHANGELOG.md file and push it if a remote repository is configured, otherwise skip pushing"'
 
