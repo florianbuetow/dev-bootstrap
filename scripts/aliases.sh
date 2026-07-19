@@ -347,9 +347,9 @@ OPUS() { opus "$@" }
 
 fable() {
   if [ -n "$*" ]; then
-    claude --model "claude-fable-5" --permission-mode auto "$*"
+    claude --model "claude-fable-5" --effort max --permission-mode auto "$*"
   else
-    claude --model "claude-fable-5" --permission-mode auto
+    claude --model "claude-fable-5" --effort max --permission-mode auto
   fi
 }
 
