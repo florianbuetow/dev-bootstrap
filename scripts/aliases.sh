@@ -325,9 +325,9 @@ HAIKU() { haiku "$@" }
 
 sonnet() {
   if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" --effort low --permission-mode auto "$*"
+    claude --model "claude-opus-5" --effort low --permission-mode auto "$*"
   else
-    claude --model "claude-opus-4-8" --effort low --permission-mode auto
+    claude --model "claude-opus-5" --effort low --permission-mode auto
   fi
 }
 
@@ -336,9 +336,9 @@ SONNET() { sonnet "$@" }
 
 opus() {
   if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" --effort max --permission-mode auto "$*"
+    claude --model "claude-opus-5" --effort max --permission-mode auto "$*"
   else
-    claude --model "claude-opus-4-8" --effort max --permission-mode auto
+    claude --model "claude-opus-5" --effort max --permission-mode auto
   fi
 }
 
@@ -374,9 +374,9 @@ ffsonnet() {
 
 ffopus() {
   if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+    claude --model "claude-opus-5" --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
-    claude --model "claude-opus-4-8" --effort max
+    claude --model "claude-opus-5" --effort max
   fi
 }
 
