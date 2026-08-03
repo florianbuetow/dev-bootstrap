@@ -380,6 +380,25 @@ ffopus() {
   fi
 }
 
+opus48() {
+  if [ -n "$*" ]; then
+    claude --model "claude-opus-4-8" "$*"
+  else
+    claude --model "claude-opus-4-8"
+  fi
+}
+
+Opus48() { opus48 "$@" }
+OPUS48() { opus48 "$@" }
+
+opus48low() {
+  if [ -n "$*" ]; then
+    claude --model "claude-opus-4-8" --effort low "$*"
+  else
+    claude --model "claude-opus-4-8" --effort low
+  fi
+}
+
 push() {
   local base="Stage all tracked modified files. Do not stage untracked files. If there is nothing to stage or commit, say so and stop. Otherwise, commit the staged files, then push. In both cases at the very end say these exact words: I'll be back!"
   if [ -n "$*" ]; then
