@@ -415,6 +415,16 @@ _codex_run() {
   fi
 }
 
+luna() { _codex_run gpt-5.6-luna max "$@" }
+
+ffluna() {
+  if [ -n "$*" ]; then
+    codex -m gpt-5.6-luna -c model_reasoning_effort="max" "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+  else
+    codex -m gpt-5.6-luna -c model_reasoning_effort="max"
+  fi
+}
+
 codex-55()          { _codex_run gpt-5.5 "" "$@" }
 codex-55-low()      { _codex_run gpt-5.5 low "$@" }
 codex-55-med()      { _codex_run gpt-5.5 medium "$@" }
