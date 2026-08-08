@@ -33,7 +33,9 @@ alias lt='eza --tree --level=2 --icons'
 # NOTE: personal `cd*` shortcuts (cdx/cdp/cdd/cdg/cdb/cdlc) reference user-specific
 # directories and live in the local-only ~/scripts/local-aliases.sh, not here.
 alias attach='tmux attach-session -t'
-alias tmon='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just attach)'
+# tmon is a function, not an alias, so it can forward an optional retry delay
+# in seconds (e.g. `tmon 5`); with no argument the Fibonacci sequence is used.
+tmon() { (cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just attach "$@"); }
 alias tstat='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just status)'
 alias findt='~/scripts/dev-bootstrap/scripts/term-switch.sh'
 # findtt: same picker, but close the launching terminal after a successful jump

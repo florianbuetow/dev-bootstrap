@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -u
 
+# One-shot attach attempt. Does no waiting of its own - loop.sh owns all retry
+# pacing. The exit code tells loop.sh what happened:
+#   0  - attached to a session (and has since detached): reset the retry index
+#   10 - no session was free: advance the retry index
+ATTACHED=0
+NOTHING_FREE=10
+
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOCK_DIR="$HERE/LOCKS"
-RETRY_SECS=3
-COOLDOWN_SECS=10
 mkdir -p "$LOCK_DIR"
 
 status_output=$("$HERE/status.sh")
@@ -19,10 +24,7 @@ names=$(tmux list-sessions -F '#{session_created} #{session_name}' 2>/dev/null \
     | cut -d' ' -f2)
 
 if [ -z "$names" ]; then
-    printf "\033[0;90m[%s] retrying in ${RETRY_SECS}s - Ctrl-C to stop\033[0m\n" "$(date +%H:%M:%S)"
-    echo ""
-    sleep "$RETRY_SECS"
-    exit 0
+    exit "$NOTHING_FREE"
 fi
 
 exec 3<&0
@@ -35,24 +37,15 @@ while IFS= read -r session; do
         tmux attach -t "$session" <&3
         exec 9>&-
         exec 3<&-
-        # detached: cooldown so the user can break out of the loop
         echo "Detached from $session."
         echo ""
-        for i in $(seq "$COOLDOWN_SECS" -1 1); do
-            printf "\r\033[K\033[0;90m[%s] Attempting to attach to the next session in %ds - Ctrl-C to stop\033[0m" "$(date +%H:%M:%S)" "$i"
-            sleep 1
-        done
-        printf "\r\033[K"
-        exit 0
+        exit "$ATTACHED"
     fi
     exec 9>&-
 done <<< "$names"
 
 exec 3<&-
 
-# no session was free: wait longer before retrying
 echo "All sessions already attached."
 echo ""
-printf "\033[0;90m[%s] retrying in ${RETRY_SECS}s - Ctrl-C to stop\033[0m\n" "$(date +%H:%M:%S)"
-echo ""
-sleep "$RETRY_SECS"
+exit "$NOTHING_FREE"

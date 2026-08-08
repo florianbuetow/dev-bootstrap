@@ -48,7 +48,7 @@ help:
     @printf "  %-40s %s\n" "help" "Show this help message"
     @echo ""
     @printf "\033[0;33mRun & Status:\033[0m\n"
-    @printf "  %-40s %s\n" "attach" "Run the auto-attach loop"
+    @printf "  %-40s %s\n" "attach [SECS]" "Run the auto-attach loop (SECS=fixed retry delay, default Fibonacci)"
     @printf "  %-40s %s\n" "status [N|once]" "Show session watch status (N=refresh secs, default 10)"
     @echo ""
 
@@ -83,12 +83,12 @@ cleanup:
     @printf "\033[0;32m✓ cleanup completed successfully\033[0m\n"
     @echo ""
 
-# Run the auto-attach loop
-attach:
+# Run the auto-attach loop. Pass SECS to use a fixed retry delay instead of the Fibonacci ladder.
+attach secs="":
     @echo ""
     @printf "\033[0;34m=== Starting tmux watcher ===\033[0m\n"
     @echo ""
-    @./loop.sh
+    @./loop.sh {{secs}}
     @echo ""
     @printf "\033[0;32m✓ attach completed successfully\033[0m\n"
     @echo ""
