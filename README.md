@@ -821,13 +821,18 @@ Then add the aliases from [`scripts/aliases.sh`](scripts/aliases.sh), such as
 
 Watcher utilities for attaching multiple terminals to different tmux sessions.
 These are now bundled in this repo at
-[`scripts/tmux-auto-attach/`](scripts/tmux-auto-attach), and the `tmon` / `tstat`
-aliases ship in [`scripts/aliases.sh`](scripts/aliases.sh) (loaded via
-`source.sh`). Initialise the lock folder once:
+[`scripts/tmux-auto-attach/`](scripts/tmux-auto-attach), and `tmon` / `tstat`
+ship in [`scripts/aliases.sh`](scripts/aliases.sh) (loaded via `source.sh`).
+Initialise the lock folder once:
 
 ```bash
 cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just init
 ```
+
+When nothing is free to attach to, `tmon` retries on Fibonacci delays
+(`1 1 2 3 5 8 13 21` seconds, holding at 21), resetting to the start whenever
+a session is attached. Pass a whole number of seconds to use a fixed delay
+instead: `tmon 5`. Values below 1 exit with an error.
 
 ## Phase 7: AI Coding Tools
 

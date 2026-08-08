@@ -30,9 +30,12 @@ To launch `attach` and `status` from any terminal without changing directory,
 add these aliases to `~/.zshrc` (or `~/.bashrc`):
 
 ```sh
-alias tmon='(cd ~/scripts/tmux-auto-attach && just attach)'
+tmon() { (cd ~/scripts/tmux-auto-attach && just attach "$@"); }
 alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
 ```
+
+`tmon` is a function rather than an alias so it can forward a retry delay
+(`tmon 5`); see [Usage](#usage).
 
 When the command exits you are returned to your original working directory.
 Reload your shell (`source ~/.zshrc`) and you're done.
@@ -42,11 +45,32 @@ Reload your shell (`source ~/.zshrc`) and you're done.
 Run the watcher in a terminal:
 
 ```sh
-just attach
+just attach        # Fibonacci retry delays (default)
+just attach 5      # fixed 5s delay on every retry
 ```
 
 Open additional terminals and run the same command - each one attaches to the
 next-newest session.
+
+### Retry delays
+
+When there is nothing to attach to, the watcher waits before retrying. The
+delays follow the Fibonacci sequence `1 1 2 3 5 8 13 21` seconds and stay at
+21 from then on, so a free session is picked up almost immediately while a
+long-idle watcher stops busy-looping.
+
+The index into that sequence starts at 0, advances by one on every failed
+retry, and resets to 0 the moment a session is attached - so after you detach,
+the next retry is 1 second again.
+
+Passing a number replaces the whole sequence with that single value, making
+every retry wait the same. It must be a whole number of seconds and at least
+1; anything else exits 1 and is never silently corrected:
+
+```sh
+just attach 0      # ✗ attach failed: retry delay must be a whole number of seconds, minimum 1 (got: 0)
+just attach abc    # ✗ same error
+```
 
 Check which sessions are under watch:
 
@@ -69,13 +93,15 @@ The `just` targets wrap four scripts you can also invoke directly:
 - `auto-attach.sh` - one-shot. Captures the current `status.sh` output, clears
   the screen, prints it, then lists tmux sessions sorted by creation time
   (newest first) and attaches to the first one no other watcher has locked.
-  Uses `flock` files under `./LOCKS/` for mutual exclusion. Sleeps a random
-  0-199 ms after detaching (so racing watchers don't collide), and
-  `RETRY_SECS` seconds (default 3) when no session was available.
-- `loop.sh` - checks that `flock` is installed, then repeatedly re-runs
-  `auto-attach.sh`. All inter-attempt pacing and screen clearing lives in
-  `auto-attach.sh` (the clear happens *after* the next status frame is
-  buffered, so the screen never goes blank between iterations).
+  Uses `flock` files under `./LOCKS/` for mutual exclusion. It never waits;
+  its exit code reports the outcome to `loop.sh` - `0` when it attached to a
+  session (and has since detached), `10` when no session was free.
+- `loop.sh` - validates the optional retry-delay argument, checks that `flock`
+  is installed, then repeatedly re-runs `auto-attach.sh`. Owns `RETRY_LADDER`
+  and the index into it, and runs the countdown between attempts. Screen
+  clearing stays in `auto-attach.sh` (the clear happens *after* the next
+  status frame is buffered, so the screen never goes blank between
+  iterations).
 - `status.sh` - renders the status table to stdout (no looping, no header).
   Used by both `just status` and `auto-attach.sh`. Columns: Session Name,
   Path (rendered relative to `~` when inside `$HOME`), Watching, Attached,
