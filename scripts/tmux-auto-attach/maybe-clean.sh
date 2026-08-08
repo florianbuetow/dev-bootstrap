@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Count stale lockfiles (lockfiles whose tmux session no longer exists) and run
 # cleanup.sh once the count reaches the threshold. Shared by tmon
-# (auto-attach.sh) and tstat (justfile `status`) so the trigger logic lives in
+# (auto-attach.sh) and tsys (justfile `status`) so the trigger logic lives in
 # one place. Override the threshold with the CLEANING_THRESHOLD env var.
 set -u
 

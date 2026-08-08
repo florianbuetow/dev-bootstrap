@@ -191,7 +191,7 @@ setopt extendedglob            # Enable case-insensitive and modifier globs
 These load automatically via [`scripts/source.sh`](scripts/source.sh) (see
 [Quick Start](#quick-start--shell-integration)). It sources:
 
-- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`/`fable`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `tmon`/`tstat`, `findt`/`findtt`, ...)
+- `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`/`fable`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `tmon`/`tsys`, `findt`/`findtt`, ...)
 - `wrap_functions.sh` — `wrap` (tmux sessions keyed to the working directory)
 - `func_*.sh` — `cdr` (cd to git repo root), `boop`, `murder`, `natobar`, `tryna`, `trynafail`
 - `yt-download/functions.sh` — `video-download` (YouTube downloader with browser cookies)
@@ -821,7 +821,7 @@ Then add the aliases from [`scripts/aliases.sh`](scripts/aliases.sh), such as
 
 Watcher utilities for attaching multiple terminals to different tmux sessions.
 These are now bundled in this repo at
-[`scripts/tmux-auto-attach/`](scripts/tmux-auto-attach), and `tmon` / `tstat`
+[`scripts/tmux-auto-attach/`](scripts/tmux-auto-attach), and `tmon` / `tsys`
 ship in [`scripts/aliases.sh`](scripts/aliases.sh) (loaded via `source.sh`).
 Initialise the lock folder once:
 

@@ -31,7 +31,7 @@ add these aliases to `~/.zshrc` (or `~/.bashrc`):
 
 ```sh
 tmon() { (cd ~/scripts/tmux-auto-attach && just attach "$@"); }
-alias tstat='(cd ~/scripts/tmux-auto-attach && just status)'
+alias tsys='(cd ~/scripts/tmux-auto-attach && just status)'
 ```
 
 `tmon` is a function rather than an alias so it can forward a retry delay

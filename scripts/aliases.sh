@@ -36,7 +36,7 @@ alias attach='tmux attach-session -t'
 # tmon is a function, not an alias, so it can forward an optional retry delay
 # in seconds (e.g. `tmon 5`); with no argument the Fibonacci sequence is used.
 tmon() { (cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just attach "$@"); }
-alias tstat='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just status)'
+alias tsys='(cd ~/scripts/dev-bootstrap/scripts/tmux-auto-attach && just status)'
 alias findt='~/scripts/dev-bootstrap/scripts/term-switch.sh'
 # findtt: same picker, but close the launching terminal after a successful jump
 # (the script exits 0 only when it jumped, so a cancel/ESC leaves the shell open)
