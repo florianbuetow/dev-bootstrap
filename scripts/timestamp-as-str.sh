@@ -9,4 +9,4 @@ case $d in
   *3) s=rd ;;
   *) s=th ;;
 esac
-printf "Note: The current date is %s the %s%s of %s and it is %s o'clock." "$(date +%A)" "$d" "$s" "$(date +%B)" "$(date +%H:%M)"
+printf "Note: The current date is %s the %s%s of %s and it is %s o'clock.\n" "$(date +%A)" "$d" "$s" "$(date +%B)" "$(date +%H:%M)"
