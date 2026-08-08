@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 export LC_TIME=en_US.UTF-8
 d=$(date +%-d)
 case $d in
