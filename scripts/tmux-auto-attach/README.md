@@ -59,9 +59,9 @@ delays follow the Fibonacci sequence `1 1 2 3 5 8 13 21` seconds and stay at
 21 from then on, so a free session is picked up almost immediately while a
 long-idle watcher stops busy-looping.
 
-The index into that sequence starts at 0, advances by one on every failed
-retry, and resets to 0 the moment a session is attached - so after you detach,
-the next retry is 1 second again.
+The index advances by one on every failed retry and resets the moment a session
+is attached. After you detach, the watcher immediately attempts another
+attachment; it waits only when that attempt finds nothing free.
 
 Passing a number replaces the whole sequence with that single value, making
 every retry wait the same. It must be a whole number of seconds and at least

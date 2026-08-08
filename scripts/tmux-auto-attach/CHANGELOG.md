@@ -14,8 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Stale session rows now grey out all columns, not just session name and path.
-- Retry delays now follow the Fibonacci sequence `1 1 2 3 5 8 13 21` seconds, holding at 21. The index resets when a session is attached and advances on every failed retry.
-- Waiting after a detach and waiting when no session is free are now the same retry, with one countdown and one delay source. `auto-attach.sh` no longer waits at all; it reports its outcome to `loop.sh` by exit code and `loop.sh` owns all pacing.
+- Retry delays now follow the Fibonacci sequence `1 1 2 3 5 8 13 21` seconds, holding at 21. Bash and Zsh use their native array bases, and a fixed delay is stored twice so both shells address it safely.
+- Status refreshes use a fixed two-entry delay array: `10 10` by default, or two copies of the user-supplied interval.
+- The retry index resets when a session is attached. After detaching, the watcher immediately tries to attach again and waits only when no session is free; `auto-attach.sh` reports the outcome and `loop.sh` owns all pacing.
 
 ## 2026-05-17
 

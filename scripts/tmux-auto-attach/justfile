@@ -88,7 +88,7 @@ attach secs="":
     @echo ""
     @printf "\033[0;34m=== Starting tmux watcher ===\033[0m\n"
     @echo ""
-    @./loop.sh {{secs}}
+    @./loop.sh {{ secs }}
     @echo ""
     @printf "\033[0;32m✓ attach completed successfully\033[0m\n"
     @echo ""
@@ -98,13 +98,25 @@ status interval="10":
     #!/usr/bin/env bash
     set -e
     once=""
-    secs="{{interval}}"
+    secs="{{ interval }}"
+    # Status always uses a fixed delay: 10 seconds by default, or the supplied
+    # interval. Duplicate it so either shell's native first index is valid.
+    delays=(10 10)
     if [ "$secs" = "once" ]; then
         once=yes
     elif ! [[ "$secs" =~ ^[0-9]+$ ]] || [ "$secs" -lt 1 ]; then
         printf "\033[0;31m✗ status failed: interval must be a positive integer or \"once\" (got: %s)\033[0m\n" "$secs"
         exit 1
+    else
+        delays=("$secs" "$secs")
     fi
+    if [ -n "${ZSH_VERSION:-}" ]; then
+        delay_base=1
+    else
+        delay_base=0
+    fi
+    delay_idx=$delay_base
+    delay_last=$((${#delays[@]} - 1 + delay_base))
     while true; do
         rendered=$(./status.sh)
         [ -z "$once" ] && clear
@@ -120,7 +132,11 @@ status interval="10":
             echo ""
             break
         fi
-        printf "\033[0;90m[%s] refreshing every %ss - Ctrl-C to stop\033[0m\n" "$(date +%H:%M:%S)" "$secs"
+        delay="${delays[$delay_idx]}"
+        printf "\033[0;90m[%s] refreshing every %ss - Ctrl-C to stop\033[0m\n" "$(date +%H:%M:%S)" "$delay"
         echo ""
-        sleep "$secs"
+        sleep "$delay"
+        if [ "$delay_idx" -lt "$delay_last" ]; then
+            delay_idx=$((delay_idx + 1))
+        fi
     done
