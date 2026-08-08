@@ -437,6 +437,8 @@ _codex_run() {
 }
 
 luna() { _codex_run gpt-5.6-luna max "$@" }
+Luna() { luna "$@" }
+LUNA() { luna "$@" }
 
 ffluna() {
   if [ -n "$*" ]; then
