@@ -68,8 +68,10 @@ _wutil_human() {
 }
 
 _wutil_target_epoch() {
-  # time spec -> epoch seconds on stdout; message on stderr and 1 on failure
+  # time spec -> epoch seconds on stdout; message on stderr and 1 on failure.
+  # rutil shares this parser, so errors name whichever command was actually typed.
   local spec="$1" now day hms epoch rollable=0 num unit mult body
+  local me="${_WUTIL_CMD:-wutil}"
   now=$(date +%s)
 
   case "$spec" in
@@ -82,7 +84,7 @@ _wutil_target_epoch() {
         *[dD]) unit=d; num="${body%?}" ;;
         *)     unit=m; num="$body" ;;
       esac
-      case "$num" in ''|*[!0-9]*) echo "wutil: bad offset: $spec" >&2; return 1 ;; esac
+      case "$num" in ''|*[!0-9]*) echo "$me: bad offset: $spec" >&2; return 1 ;; esac
       case "$unit" in
         s) mult=1 ;; m) mult=60 ;; h) mult=3600 ;; d) mult=86400 ;;
       esac
@@ -109,12 +111,12 @@ _wutil_target_epoch() {
     *:*)
       day=$(date +%Y-%m-%d); hms=$(_wutil_norm_hms "$w1"); rollable=1 ;;
     *)
-      echo "wutil: unrecognised time: $spec" >&2; return 1 ;;
+      echo "$me: unrecognised time: $spec" >&2; return 1 ;;
   esac
-  [ -n "$hms" ] || { echo "wutil: bad time of day: $spec" >&2; return 1; }
+  [ -n "$hms" ] || { echo "$me: bad time of day: $spec" >&2; return 1; }
 
   epoch=$(_wutil_epoch "$day $hms")
-  [ -n "$epoch" ] || { echo "wutil: cannot resolve: $day $hms" >&2; return 1; }
+  [ -n "$epoch" ] || { echo "$me: cannot resolve: $day $hms" >&2; return 1; }
 
   if [ "$epoch" -le "$now" ]; then
     if [ "$rollable" -eq 1 ]; then
@@ -122,7 +124,7 @@ _wutil_target_epoch() {
       # time still lands correctly across a DST transition.
       epoch=$(_wutil_epoch "$(_wutil_tomorrow) $hms")
     else
-      echo "wutil: that time is in the past: $day $hms" >&2
+      echo "$me: that time is in the past: $day $hms" >&2
       return 1
     fi
   fi
