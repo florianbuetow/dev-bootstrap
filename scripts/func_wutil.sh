@@ -308,7 +308,7 @@ _wutil_main() {
   while [ $# -gt 0 ]; do
     case "$1" in
       --dry-run) dry=1; shift ;;
-      -h|--help)
+      -h|--help|help)
         cat <<'EOF'
 wutil - schedule a command with at(1), with logging and history
 
@@ -318,6 +318,7 @@ scheduling:
 
 inspecting:
   wutil                    # overview: what is pending, then what already ran
+  wutil help               # this text
   wutil ls                 # pending jobs, with their commands
   wutil <job>              # details for one job, queued or already run
   wutil <run-id>           # the same, addressed by run id
