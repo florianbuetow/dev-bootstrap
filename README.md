@@ -229,7 +229,10 @@ alias ccc='uvx sniffly@latest init'
 # Enhanced ls commands
 alias ld='echo && ls -Alhd */ && echo'  # List only directories
 alias dsdestroy='find . -name .DS_Store -delete'  # Remove all .DS_Store files
-alias ls='eza --icons'
+unalias ls 2>/dev/null
+ls() {
+  command eza --icons=auto "$@"
+}
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
 
