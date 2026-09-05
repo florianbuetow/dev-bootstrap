@@ -25,7 +25,12 @@ alias cat='bat'
 alias less='glow'
 alias man='tldr'
 alias manpage='/usr/bin/man'
-alias ls='eza --icons'
+# Use an explicit icon mode so the first path argument is not consumed as the
+# optional value for --icons. Remove the old alias when this file is re-sourced.
+unalias ls 2>/dev/null
+ls() {
+  command eza --icons=auto "$@"
+}
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
 
