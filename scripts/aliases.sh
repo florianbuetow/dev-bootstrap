@@ -20,6 +20,20 @@ alias jus='just'
 alias jsut='just'
 alias ci='just ci-quiet && git status'
 
+# Project overview via just: prefer the `stats` recipe, fall back to `status` for
+# projects that only define that one. stderr from the first try is dropped so a
+# missing recipe does not print an error before the fallback runs.
+js() {
+  if [ ! -f justfile ] && [ ! -f Justfile ] && [ ! -f .justfile ]; then
+    printf 'This folder has no justfile.\n'
+    return 1
+  fi
+  just stats 2>/dev/null && return 0
+  just status && return 0
+  printf 'Neither `just stats` nor `just status` succeeded here.\n'
+  return 1
+}
+
 # Better defaults
 alias cat='bat'
 alias less='glow'

@@ -275,6 +275,7 @@ Highlights include:
 l                 # Enhanced ls with blank lines
 ld                # List directories
 ss                # Clear screen and show git status when inside a repo
+js                # just stats for the current project, falling back to just status
 x "prompt"        # Quick Claude wrapper
 xx "prompt"       # Raw Claude wrapper
 cc "prompt"       # Claude project onboarding wrapper
@@ -286,7 +287,7 @@ png2jpg           # Convert PNG files in the current directory to JPG
 ```
 
 The live `.zshrc` helpers that used to be copied inline are represented in
-[`scripts/aliases.sh`](scripts/aliases.sh), including `l`, `ld`, `ss`, `x`,
+[`scripts/aliases.sh`](scripts/aliases.sh), including `l`, `ld`, `ss`, `js`, `x`,
 `xx`, `cc`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `snow`, and the
 Claude/Codex model wrappers. (Personal `cd*` navigation, the banner functions,
 and `ytt` live in `~/scripts/local-aliases.sh`, not here.)
