@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `rutil`, a foreground sibling of `wutil` that runs in the calling shell.
 - Added `Luna` and `LUNA` variants of the max-effort `luna` codex wrapper.
 - Added `scripts/timestamp-as-str.sh`, an executable zsh command that renders the current date and time as a readable sentence.
+- Added install instructions for `qsearch`, the ripgrep/clawgrep file search.
 
 ### Changed
 
@@ -24,3 +25,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed timestamp output running into the shell prompt.
 - Fixed `ls` consuming its first path argument as an icon mode.
+- Fixed `js` output running into the next shell prompt on every path.
