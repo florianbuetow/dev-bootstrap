@@ -525,6 +525,8 @@ Then start it once. The starting ensures that docker and docker-compose are avai
 ├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
 │ fswatch          │ A cross-platform file change monitor with multiple backends                    │
 ├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
+│ qsearch          │ Search text files (pdf, word, txt, md) via ripgrep + clawgrep fallback         │
+├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
 │                  │                              GIT TOOLS                                         │
 ├──────────────────┼────────────────────────────────────────────────────────────────────────────────┤
 │ gh               │ GitHub CLI for managing repos, PRs, and issues                                 │
@@ -820,6 +822,47 @@ git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardr
 Then add the aliases from [`scripts/aliases.sh`](scripts/aliases.sh), such as
 `newpy`, `newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, `newkotlin`,
 `newgamecpp`, and `update-templates`.
+
+#### qsearch
+
+A collection of shell scripts that search your text files (PDF, Word, txt, md,
+...) using `ripgrep` and `clawgrep`. Because keyword-based search typically
+misses things, qsearch adds a query expansion and then uses `ripgrep` for
+extremely fast search. When it doesn't find good results, it falls back on
+`clawgrep`, which uses a semantic search based on an index that is created
+extremely fast and is persisted in your home directory, to find better matches.
+It's very simple to install, use and adapt:
+
+```bash
+mkdir -p ~/scripts
+git clone https://github.com/florianbuetow/qsearch-bash.git ~/scripts/qsearch
+~/scripts/qsearch/install.sh
+```
+
+`install.sh` installs only the dependencies you are missing (Homebrew on macOS,
+apt on Debian-like Linux), adds `~/scripts/qsearch/scripts` to your `PATH` in
+whichever shell config matches your shell, and exits non-zero if a required tool
+is still absent. Required: `rg`, `rga`, `stemwords`. Optional: `pandoc`,
+`pdftotext`, `clawgrep`, `las`.
+
+Homebrew's `snowball` formula ships no `stemwords` binary, so the macOS
+installer compiles one into `scripts/stemwords`. Run `xcode-select --install`
+first if you have no C compiler.
+
+Open a new shell, then:
+
+```bash
+qsearch "how are autonomous agents evaluated?" ~/Documents
+qsearch --types md,txt,pdf,docx "agent evaluation" ~/Documents
+qsearch --lang de "Bewertung autonomer Agenten" ~/Documents
+```
+
+Keep `scripts/` on your `PATH` rather than symlinking the `qsearch` file — it
+loads its stopword lists from next to itself. To update:
+
+```bash
+cd ~/scripts/qsearch && git pull && ./install.sh
+```
 
 #### tmux-auto-attach
 
