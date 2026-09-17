@@ -8,3 +8,4 @@
 # Locally generated data from scripts (e.g. yt-download archive)
 downloaded.txt
 **/downloaded.txt
+.back*.json
