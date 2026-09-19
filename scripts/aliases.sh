@@ -251,6 +251,7 @@ loop() {
     echo "Usage: loop <time> <command...>" >&2
     echo "  time: positive number + unit (s=seconds, m=minutes, h=hours)" >&2
     echo "  Examples: loop 10s echo hi  |  loop 5m ls -la" >&2
+    echo >&2
     return 1
   fi
 
@@ -289,6 +290,7 @@ nloop() {
     echo "  time: positive number + unit (s=seconds, m=minutes, h=hours)" >&2
     echo "  Repeats while the command exits with 1, stops on any other code." >&2
     echo "  Examples: nloop 10s just test  |  nloop 5m ./deploy.sh" >&2
+    echo >&2
     return 1
   fi
 
