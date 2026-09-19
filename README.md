@@ -193,7 +193,7 @@ These load automatically via [`scripts/source.sh`](scripts/source.sh) (see
 
 - `aliases.sh` — interactive aliases plus Claude/Codex model wrappers (`q`, `j`, `sonnet`/`haiku`/`opus`/`fable`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `tmon`/`tsys`, `findt`/`findtt`, ...)
 - `wrap_functions.sh` — `wrap` (tmux sessions keyed to the working directory)
-- `func_*.sh` — `cdr` (cd to git repo root), `boop`, `murder`, `natobar`, `tryna`, `trynafail`
+- `func_*.sh` — `cdrr` (cd to git repo root), `boop`, `murder`, `natobar`, `tryna`, `trynafail`
 - `yt-download/functions.sh` — `video-download` (YouTube downloader with browser cookies)
 - `claude-lmstudio.sh` / `pi-lmstudio.sh` — `claudex` / `pix` (agents via local LM Studio)
 

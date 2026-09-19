@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# cdr - Change directory to the root of the current git repository
-# Usage: cdr
+# cdrr - Change directory to the root of the current git repository
+# Usage: cdrr
 
-cdr() {
+cdrr() {
   # First check if we're inside a git working tree (handles worktrees, branches, etc.)
   if ! git rev-parse --is-inside-work-tree &>/dev/null; then
     echo 'not inside a git repository'
