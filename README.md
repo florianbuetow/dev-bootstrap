@@ -821,7 +821,8 @@ git clone https://github.com/florianbuetow/ai-guardrails.git ~/scripts/ai-guardr
 
 Then add the aliases from [`scripts/aliases.sh`](scripts/aliases.sh), such as
 `newpy`, `newgo`, `newjava`, `newelixir`, `newrust`, `newcpp`, `newkotlin`,
-`newgamecpp`, and `update-templates`.
+`newscala`, `newclojure`, `newgamecpp`, `newreact`, `newmcp`, `newnode`,
+`newshell`, and `update-templates`.
 
 #### qsearch
 

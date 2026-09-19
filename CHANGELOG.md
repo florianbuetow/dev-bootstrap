@@ -15,8 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `Luna` and `LUNA` variants of the max-effort `luna` codex wrapper.
 - Added `scripts/timestamp-as-str.sh`, an executable zsh command that renders the current date and time as a readable sentence.
 - Added install instructions for `qsearch`, the ripgrep/clawgrep file search.
+- Added the `newscala`, `newclojure`, `newmcp`, `newnode`, and `newshell` project template aliases.
 
 ### Changed
+
+- Updated the `new*` project template aliases to the renamed ai-guardrails setup scripts, which now carry full blueprint names.
 
 - Renamed the `tstat` tmux status shortcut to `tsys` to make its purpose unambiguous.
 - Updated `tmon` to retry with Fibonacci delays by default, accept an optional fixed delay such as `tmon 5`, and avoid unpaced retry loops after sessions detach.
