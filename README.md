@@ -282,13 +282,14 @@ cc "prompt"       # Claude project onboarding wrapper
 work 20m          # Work timer
 rest 5m           # Break timer
 loop 10s "date"   # Repeat a command at an interval
+nloop 10s "just test"  # Retry until the exit code is no longer 1
 mux mysession     # Create/attach a tmux work layout
 png2jpg           # Convert PNG files in the current directory to JPG
 ```
 
 The live `.zshrc` helpers that used to be copied inline are represented in
 [`scripts/aliases.sh`](scripts/aliases.sh), including `l`, `ld`, `ss`, `js`, `x`,
-`xx`, `cc`, `work`, `rest`, `loop`, `mux`, `png2jpg`, `snow`, and the
+`xx`, `cc`, `work`, `rest`, `loop`, `nloop`, `mux`, `png2jpg`, `snow`, and the
 Claude/Codex model wrappers. (Personal `cd*` navigation, the banner functions,
 and `ytt` live in `~/scripts/local-aliases.sh`, not here.)
 

@@ -282,6 +282,52 @@ loop() {
   done
 }
 
+# nloop: retry a command at an interval until its exit code is no longer 1
+nloop() {
+  if [[ $# -lt 2 ]]; then
+    echo "Usage: nloop <time> <command...>" >&2
+    echo "  time: positive number + unit (s=seconds, m=minutes, h=hours)" >&2
+    echo "  Repeats while the command exits with 1, stops on any other code." >&2
+    echo "  Examples: nloop 10s just test  |  nloop 5m ./deploy.sh" >&2
+    return 1
+  fi
+
+  local interval="$1"; shift
+  local unit="${interval: -1}"
+  local num="${interval%?}"
+
+  if [[ ! "$num" =~ ^[0-9]+$ ]] || [[ "$num" -le 0 ]]; then
+    echo "Error: time must be a positive number, got '$num'" >&2
+    return 1
+  fi
+
+  local seconds
+  case "$unit" in
+    s) seconds=$num ;;
+    m) seconds=$((num * 60)) ;;
+    h) seconds=$((num * 3600)) ;;
+    *) echo "Error: unknown time unit '$unit' (use s, m, or h)" >&2; return 1 ;;
+  esac
+
+  echo "Retrying every ${num}${unit} (${seconds}s) while the exit code is 1: $*"
+  echo "Press Ctrl+C to stop"
+  echo
+
+  local rc
+  while true; do
+    eval "$@"
+    rc=$?
+    if [[ $rc -ne 1 ]]; then
+      echo
+      echo "[$(date +%H:%M:%S)] Stopping: exit code $rc"
+      return $rc
+    fi
+    echo
+    echo "[$(date +%H:%M:%S)] Exit code 1, retrying in ${num}${unit}: $*"
+    sleep "$seconds"
+  done
+}
+
 # wt: watch trigger - re-run a command every time a file changes (via fswatch)
 wt() {
   if [[ $# -lt 2 ]]; then
