@@ -78,6 +78,7 @@ alias newgamecpp='~/scripts/ai-guardrails/project-setup/setup-project-cpp-3dgame
 alias newreact='~/scripts/ai-guardrails/project-setup/setup-project-react-vite-typescript-base-claude.sh'
 alias newmcp='~/scripts/ai-guardrails/project-setup/setup-project-mcp-server-typescript-base-claude.sh'
 alias newnode='~/scripts/ai-guardrails/project-setup/setup-project-node-typescript-cli-base-claude.sh'
+alias newasm64='~/scripts/ai-guardrails/project-setup/setup-project-arm64-macos-cli-base-claude.sh'
 alias newshell='~/scripts/ai-guardrails/project-setup/setup-project-shellscripts-base-claude.sh'
 alias update-templates='cd ~/scripts/ai-guardrails && git pull && cd - >/dev/null'
 alias changelog='sonnet "load and use the changelog skill, then commit the updated CHANGELOG.md file and push it if a remote repository is configured, otherwise skip pushing"'
