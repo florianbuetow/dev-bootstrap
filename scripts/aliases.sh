@@ -398,36 +398,40 @@ haiku() {
 Haiku() { haiku "$@" }
 HAIKU() { haiku "$@" }
 
-sonnet() {
+# Maps an effort word to its level: low, med[ium], hi[gh], x[hi[gh]], m[ax].
+_effort_level() {
+  case "$1" in
+    low)         echo low ;;
+    med|medium)  echo medium ;;
+    hi|high)     echo high ;;
+    x|xhi|xhigh) echo xhigh ;;
+    m|max)       echo max ;;
+    *)           return 1 ;;
+  esac
+}
+
+# An optional effort word as the first argument overrides the default effort.
+_claude_run() {
+  local model="$1" effort="$2" level; shift 2
+  if level=$(_effort_level "$1"); then
+    effort="$level"; shift
+  fi
   if [ -n "$*" ]; then
-    claude --model "claude-opus-5" --effort low --permission-mode auto "$*"
+    claude --model "$model" --effort "$effort" --permission-mode auto "$*"
   else
-    claude --model "claude-opus-5" --effort low --permission-mode auto
+    claude --model "$model" --effort "$effort" --permission-mode auto
   fi
 }
 
+sonnet() { _claude_run claude-opus-5-5 low "$@" }
 Sonnet() { sonnet "$@" }
 SONNET() { sonnet "$@" }
 
-opus() {
-  if [ -n "$*" ]; then
-    claude --model "claude-opus-5" --effort max --permission-mode auto "$*"
-  else
-    claude --model "claude-opus-5" --effort max --permission-mode auto
-  fi
-}
-
+opus() { _claude_run claude-opus-5-5 max "$@" }
 Opus() { opus "$@" }
 OPUS() { opus "$@" }
 
-fable() {
-  if [ -n "$*" ]; then
-    claude --model "claude-fable-5" --effort max --permission-mode auto "$*"
-  else
-    claude --model "claude-fable-5" --effort max --permission-mode auto
-  fi
-}
-
+fable() { _claude_run claude-fable-5-1 max "$@" }
 Fable() { fable "$@" }
 FABLE() { fable "$@" }
 
@@ -492,8 +496,12 @@ commit() {
   fi
 }
 
+# An optional effort word as the first argument overrides the default effort.
 _codex_run() {
-  local model="$1" effort="$2"; shift 2
+  local model="$1" effort="$2" level; shift 2
+  if level=$(_effort_level "$1"); then
+    effort="$level"; shift
+  fi
   if [ -n "$effort" ]; then
     if [ -n "$*" ]; then
       codex -m "$model" -c model_reasoning_effort="$effort" "$*"
@@ -509,9 +517,21 @@ _codex_run() {
   fi
 }
 
-luna() { _codex_run gpt-5.6-luna max "$@" }
+sol() { _codex_run gpt-6-sol max "$@" }
+Sol() { sol "$@" }
+SOL() { sol "$@" }
+
+terra() { _codex_run gpt-5.6-terra max "$@" }
+Terra() { terra "$@" }
+TERRA() { terra "$@" }
+
+luna() { _codex_run gpt-6-luna max "$@" }
 Luna() { luna "$@" }
 LUNA() { luna "$@" }
+
+astra() { _codex_run gpt-6-astra max "$@" }
+Astra() { astra "$@" }
+ASTRA() { astra "$@" }
 
 ffluna() {
   if [ -n "$*" ]; then
