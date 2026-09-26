@@ -971,7 +971,9 @@ project-local scripts.
 `sol`, `terra`, `luna`, and `astra` run `gpt-6-sol`, `gpt-5.6-terra`,
 `gpt-6-luna`, and `gpt-6-astra` at max reasoning effort. Like the Claude
 wrappers, all Codex wrappers take an optional effort word as the first
-argument: low, med[ium], hi[gh], x[hi[gh]], m[ax].
+argument: low, med[ium], hi[gh], x[hi[gh]], m[ax]. They run with `--no-daemon`,
+so every session uses exactly the model and effort it was launched with; Codex's
+shared background server cannot take a per-session effort at launch.
 
 ```bash
 sol "prompt"

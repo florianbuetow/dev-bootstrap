@@ -497,6 +497,8 @@ commit() {
 }
 
 # An optional effort word as the first argument overrides the default effort.
+# --no-daemon: each session runs on its own, because Codex's shared background
+# server cannot take a per-session effort at launch.
 _codex_run() {
   local model="$1" effort="$2" level; shift 2
   if level=$(_effort_level "$1"); then
@@ -504,15 +506,15 @@ _codex_run() {
   fi
   if [ -n "$effort" ]; then
     if [ -n "$*" ]; then
-      codex -m "$model" -c model_reasoning_effort="$effort" "$*"
+      codex --no-daemon -m "$model" -c model_reasoning_effort="$effort" "$*"
     else
-      codex -m "$model" -c model_reasoning_effort="$effort"
+      codex --no-daemon -m "$model" -c model_reasoning_effort="$effort"
     fi
   else
     if [ -n "$*" ]; then
-      codex -m "$model" "$*"
+      codex --no-daemon -m "$model" "$*"
     else
-      codex -m "$model"
+      codex --no-daemon -m "$model"
     fi
   fi
 }
@@ -535,9 +537,9 @@ ASTRA() { astra "$@" }
 
 ffluna() {
   if [ -n "$*" ]; then
-    codex -m gpt-5.6-luna -c model_reasoning_effort="max" "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+    codex --no-daemon -m gpt-5.6-luna -c model_reasoning_effort="max" "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
-    codex -m gpt-5.6-luna -c model_reasoning_effort="max"
+    codex --no-daemon -m gpt-5.6-luna -c model_reasoning_effort="max"
   fi
 }
 
