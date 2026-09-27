@@ -80,6 +80,7 @@ alias newmcp='~/scripts/ai-guardrails/project-setup/setup-project-mcp-server-typ
 alias newnode='~/scripts/ai-guardrails/project-setup/setup-project-node-typescript-cli-base-claude.sh'
 alias newasm64='~/scripts/ai-guardrails/project-setup/setup-project-arm64-macos-cli-base-claude.sh'
 alias newshell='~/scripts/ai-guardrails/project-setup/setup-project-shellscripts-base-claude.sh'
+alias initdocs='~/scripts/ai-guardrails/project-setup/setup-project-ai-docs-claude.sh'
 alias update-templates='cd ~/scripts/ai-guardrails && git pull && cd - >/dev/null'
 alias changelog='sonnet "load and use the changelog skill, then commit the updated CHANGELOG.md file and push it if a remote repository is configured, otherwise skip pushing"'
 
