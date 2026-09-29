@@ -446,17 +446,17 @@ ffhaiku() {
 
 ffsonnet() {
   if [ -n "$*" ]; then
-    claude --model sonnet --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+    claude --model claude-sonnet-5-5 --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
-    claude --model sonnet
+    claude --model claude-sonnet-5-5
   fi
 }
 
 ffopus() {
   if [ -n "$*" ]; then
-    claude --model "claude-opus-5" --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+    claude --model "claude-opus-5-5" --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
-    claude --model "claude-opus-5" --effort max
+    claude --model "claude-opus-5-5" --effort max
   fi
 }
 

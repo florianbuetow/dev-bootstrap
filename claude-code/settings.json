@@ -117,7 +117,7 @@
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
-  "advisorModel": "opus",
+  "advisorModel": "claude-opus-5-5",
   "env": {
     "ENABLE_LSP_TOOL": "1"
   },

@@ -915,7 +915,7 @@ The `permissions.allow` list pre-approves the read-only and project commands I u
 |-----|--------|
 | `alwaysThinkingEnabled` | Extended thinking on by default |
 | `effortLevel: "xhigh"` | Maximum reasoning effort |
-| `advisorModel: "opus"` | Use Opus for the advisor tool |
+| `advisorModel: "claude-opus-5-5"` | Use Opus 5.5 for the advisor tool |
 | `env.ENABLE_LSP_TOOL` | Enable the LSP tool (language-server code intelligence); restart Claude Code after changing |
 | `theme: "auto"` | Follow the terminal's light/dark mode |
 | `voice` / `voiceEnabled` | Hold-to-talk voice dictation |
