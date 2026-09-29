@@ -424,7 +424,7 @@ _claude_run() {
   fi
 }
 
-sonnet() { _claude_run claude-opus-5-5 low "$@" }
+sonnet() { _claude_run claude-sonnet-5-5 xhigh "$@" }
 Sonnet() { sonnet "$@" }
 SONNET() { sonnet "$@" }
 

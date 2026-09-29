@@ -240,7 +240,7 @@ alias lt='eza --tree --level=2 --icons'
 # user-specific directories, so they live in ~/scripts/local-aliases.sh, not here.
 
 # Claude Code wrappers
-# Note: `sonnet` runs Opus at low effort, not Sonnet. Use `ffsonnet` for Sonnet.
+# `sonnet` runs Sonnet 5.5 at xhigh effort.
 # `sonnet`, `opus`, and `fable` take an optional effort word as the first
 # argument: low, med[ium], hi[gh], x[hi[gh]], m[ax].
 sonnet "prompt"
