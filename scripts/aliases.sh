@@ -47,6 +47,49 @@ ls() {
 }
 alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
+# lll [count] [file count]: the most recently modified folders, then the most
+# recently modified files in the current directory (hidden included, except
+# .DS_Store and ._*). With no argument, 10 of each; with one, that many of each;
+# with two, the first is the folder count and the second the file count.
+# The date is shown on a day's first entry, later entries of that day show only
+# the time, and each list ends with a blank line. After the time comes the
+# permissions in dark blue. Folders are green with a "./" prefix; files are light
+# blue followed by their size in light green. Spaces in names are escaped with "\".
+lll() {
+  setopt localoptions extendedglob
+  zmodload -F zsh/stat b:zstat
+  local green=$'\e[32m' blue=$'\e[94m' lgreen=$'\e[92m' dblue=$'\e[34m' yellow=$'\e[33m' reset=$'\e[0m'
+  local -A st
+  local -a items
+  local kind f stamp day last size
+  local nfolders=${1:-10} nfiles=${2:-${1:-10}}
+  if [[ $nfolders != <-> || $nfiles != <-> ]]; then
+    print -u2 'usage: lll [count] | lll [folder count] [file count]'
+    return 1
+  fi
+  for kind in folders files; do
+    print "${yellow}=== Latest $kind ===${reset}\n"
+    if [[ $kind == folders ]]; then items=( *(/NomD[1,$nfolders]) ); else items=( (*~(.DS_Store|._*))(.NomD[1,$nfiles]) ); fi
+    last=
+    for f in $items; do
+      zstat -s -F '%Y-%m-%d %H:%M' -H st -- "$f"
+      stamp=${st[mtime]} day=${stamp% *}
+      [[ $day == $last ]] && stamp="${(l:11:)}${stamp#* }"
+      last=$day
+      if [[ $kind == folders ]]; then
+        print -r -- "$stamp ${dblue}${st[mode]}${reset} ${green}./${f// /\\ }${reset}"
+      else
+        size=${st[size]}
+        if (( size < 1024 )); then size="$size bytes"
+        elif (( size < 1048576 )); then printf -v size '%.1f kb' $(( size / 1024.0 ))
+        elif (( size < 1073741824 )); then printf -v size '%.1f mb' $(( size / 1048576.0 ))
+        else printf -v size '%.1f gb' $(( size / 1073741824.0 )); fi
+        print -r -- "$stamp ${dblue}${st[mode]}${reset} ${blue}${f// /\\ }${reset} ${lgreen}${size}${reset}"
+      fi
+    done
+    [[ -n $last ]] && print
+  done
+}
 
 # Navigation
 # NOTE: personal `cd*` shortcuts (cdx/cdp/cdd/cdg/cdb/cdlc) reference user-specific
