@@ -49,7 +49,7 @@ alias ll='eza -la --icons --git'
 alias lt='eza --tree --level=2 --icons'
 # lll [count] [file count]: the most recently modified folders, then the most
 # recently modified files in the current directory (hidden included, except
-# .DS_Store and ._*). With no argument, 10 of each; with one, that many of each;
+# .DS_Store and ._*). With no argument, 9 folders and 23 files; with one, that many of each;
 # with two, the first is the folder count and the second the file count.
 # The date is shown on a day's first entry, later entries of that day show only
 # the time, and each list ends with a blank line. After the time comes the
@@ -62,7 +62,7 @@ lll() {
   local -A st
   local -a items
   local kind f stamp day last size
-  local nfolders=${1:-10} nfiles=${2:-${1:-10}}
+  local nfolders=${1:-9} nfiles=${2:-${1:-23}}
   if [[ $nfolders != <-> || $nfiles != <-> ]]; then
     print -u2 'usage: lll [count] | lll [folder count] [file count]'
     return 1
