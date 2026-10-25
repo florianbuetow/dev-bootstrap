@@ -91,6 +91,16 @@ lll() {
   done
 }
 
+# mem: resident memory of the current shell process (ps reports rss in kb),
+# shown as bytes, whole kb, whole mb, or GB with one decimal.
+mem() {
+  local bytes=$(( $(ps -o rss= -p $$) * 1024 ))
+  if (( bytes < 1024 )); then print "$bytes bytes"
+  elif (( bytes < 1048576 )); then print "$(( bytes / 1024 )) kb"
+  elif (( bytes < 1073741824 )); then print "$(( bytes / 1048576 )) mb"
+  else printf '%.1f GB\n' $(( bytes / 1073741824.0 )); fi
+}
+
 # Navigation
 # NOTE: personal `cd*` shortcuts (cdx/cdp/cdd/cdg/cdb/cdlc) reference user-specific
 # directories and live in the local-only ~/scripts/local-aliases.sh, not here.
