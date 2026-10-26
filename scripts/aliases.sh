@@ -443,9 +443,9 @@ cc() {
 
 haiku() {
   if [ -n "$*" ]; then
-    claude --model haiku "$*"
+    claude --model haiku --effort medium "$*"
   else
-    claude --model haiku
+    claude --model haiku --effort medium
   fi
 }
 
@@ -477,15 +477,15 @@ _claude_run() {
   fi
 }
 
-sonnet() { _claude_run claude-sonnet-5-5 xhigh "$@" }
+sonnet() { _claude_run claude-sonnet-5-5 medium "$@" }
 Sonnet() { sonnet "$@" }
 SONNET() { sonnet "$@" }
 
-opus() { _claude_run claude-opus-5-5 max "$@" }
+opus() { _claude_run claude-opus-5-5 medium "$@" }
 Opus() { opus "$@" }
 OPUS() { opus "$@" }
 
-fable() { _claude_run claude-fable-5-1 max "$@" }
+fable() { _claude_run claude-fable-5-1 medium "$@" }
 Fable() { fable "$@" }
 FABLE() { fable "$@" }
 
@@ -573,19 +573,19 @@ _codex_run() {
   fi
 }
 
-sol() { _codex_run gpt-6-sol max "$@" }
+sol() { _codex_run gpt-6-sol medium "$@" }
 Sol() { sol "$@" }
 SOL() { sol "$@" }
 
-terra() { _codex_run gpt-5.6-terra max "$@" }
+terra() { _codex_run gpt-5.6-terra medium "$@" }
 Terra() { terra "$@" }
 TERRA() { terra "$@" }
 
-luna() { _codex_run gpt-6-luna max "$@" }
+luna() { _codex_run gpt-6-luna medium "$@" }
 Luna() { luna "$@" }
 LUNA() { luna "$@" }
 
-astra() { _codex_run gpt-6-astra max "$@" }
+astra() { _codex_run gpt-6-astra medium "$@" }
 Astra() { astra "$@" }
 ASTRA() { astra "$@" }
 
