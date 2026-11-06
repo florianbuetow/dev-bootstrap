@@ -54,15 +54,22 @@ if [ -d "$LOCK_DIR" ]; then
         [ -f "$lockfile" ] || continue
         key=$(basename "$lockfile")
         if [ -z "$active_keys" ] || ! printf '%s\n' "$active_keys" | grep -Fxq "$key"; then
+            modified=$(stat -f %m "$lockfile" 2>/dev/null || stat -c %Y "$lockfile")
             created=$(date -r "$lockfile" +"%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "")
             if [ -z "$stale" ]; then
-                stale="$key|$created||0"
+                stale="$modified|$key|$created||0"
             else
-                stale="$stale"$'\n'"$key|$created||0"
+                stale="$stale"$'\n'"$modified|$key|$created||0"
             fi
         fi
     done
     shopt -u nullglob
+fi
+
+# Keep only the eight most recently modified orphan lock files in the display.
+# This does not remove files or change cleanup policy.
+if [ -n "$stale" ]; then
+    stale=$(printf '%s\n' "$stale" | sort -t'|' -k1,1nr -k2,2 | head -n 8 | cut -d'|' -f2-)
 fi
 
 if [ -z "$sessions" ] && [ -z "$stale" ]; then
