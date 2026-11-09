@@ -485,7 +485,7 @@ opus() { _claude_run claude-opus-5-5 medium "$@" }
 Opus() { opus "$@" }
 OPUS() { opus "$@" }
 
-fable() { _claude_run claude-fable-5-1 medium "$@" }
+fable() { _claude_run claude-fable-5-2 medium "$@" }
 Fable() { fable "$@" }
 FABLE() { fable "$@" }
 
