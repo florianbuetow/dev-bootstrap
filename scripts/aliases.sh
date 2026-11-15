@@ -7,6 +7,7 @@
 alias q='exit'
 alias dsdestroy='find . -name .DS_Store -delete'
 alias 888='npx n8n start'
+alias gemini=agy
 
 # Claude usage shortcuts
 alias ccusage='uvx sniffly@latest init'
