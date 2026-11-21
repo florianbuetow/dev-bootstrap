@@ -444,9 +444,9 @@ cc() {
 
 haiku() {
   if [ -n "$*" ]; then
-    claude --model haiku --effort medium "$*"
+    claude --model claude-haiku-5-5 --effort medium "$*"
   else
-    claude --model haiku --effort medium
+    claude --model claude-haiku-5-5 --effort medium
   fi
 }
 
@@ -492,9 +492,9 @@ FABLE() { fable "$@" }
 
 ffhaiku() {
   if [ -n "$*" ]; then
-    claude --model haiku "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+    claude --model claude-haiku-5-5 "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
-    claude --model haiku
+    claude --model claude-haiku-5-5
   fi
 }
 
@@ -511,25 +511,6 @@ ffopus() {
     claude --model "claude-opus-5-5" --effort max "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
     claude --model "claude-opus-5-5" --effort max
-  fi
-}
-
-opus48() {
-  if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" "$*"
-  else
-    claude --model "claude-opus-4-8"
-  fi
-}
-
-Opus48() { opus48 "$@" }
-OPUS48() { opus48 "$@" }
-
-opus48low() {
-  if [ -n "$*" ]; then
-    claude --model "claude-opus-4-8" --effort low "$*"
-  else
-    claude --model "claude-opus-4-8" --effort low
   fi
 }
 
@@ -574,11 +555,11 @@ _codex_run() {
   fi
 }
 
-sol() { _codex_run gpt-6-sol medium "$@" }
+sol() { _codex_run gpt-6.2-sol medium "$@" }
 Sol() { sol "$@" }
 SOL() { sol "$@" }
 
-terra() { _codex_run gpt-5.6-terra medium "$@" }
+terra() { _codex_run gpt-6.1-terra medium "$@" }
 Terra() { terra "$@" }
 TERRA() { terra "$@" }
 
@@ -586,35 +567,14 @@ luna() { _codex_run gpt-6-luna medium "$@" }
 Luna() { luna "$@" }
 LUNA() { luna "$@" }
 
-astra() { _codex_run gpt-6-astra medium "$@" }
+astra() { _codex_run gpt-6.2-astra medium "$@" }
 Astra() { astra "$@" }
 ASTRA() { astra "$@" }
 
 ffluna() {
   if [ -n "$*" ]; then
-    codex --no-daemon -m gpt-5.6-luna -c model_reasoning_effort="max" "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
+    codex --no-daemon -m gpt-6-luna -c model_reasoning_effort="max" "$* . When you are done utter the following phrase exactly with no modifications \"I'll be back!\""
   else
-    codex --no-daemon -m gpt-5.6-luna -c model_reasoning_effort="max"
+    codex --no-daemon -m gpt-6-luna -c model_reasoning_effort="max"
   fi
 }
-
-codex-55()          { _codex_run gpt-5.5 "" "$@" }
-codex-55-low()      { _codex_run gpt-5.5 low "$@" }
-codex-55-med()      { _codex_run gpt-5.5 medium "$@" }
-codex-55-high()     { _codex_run gpt-5.5 high "$@" }
-codex-54()          { _codex_run gpt-5.4 "" "$@" }
-codex-54-low()      { _codex_run gpt-5.4 low "$@" }
-codex-54-med()      { _codex_run gpt-5.4 medium "$@" }
-codex-54-high()     { _codex_run gpt-5.4 high "$@" }
-codex-54-mini()     { _codex_run gpt-5.4-mini "" "$@" }
-codex-54-mini-low() { _codex_run gpt-5.4-mini low "$@" }
-codex-54-mini-med() { _codex_run gpt-5.4-mini medium "$@" }
-codex-54-mini-high(){ _codex_run gpt-5.4-mini high "$@" }
-codex-53-codex()      { _codex_run gpt-5.3-codex "" "$@" }
-codex-53-codex-low()  { _codex_run gpt-5.3-codex low "$@" }
-codex-53-codex-med()  { _codex_run gpt-5.3-codex medium "$@" }
-codex-53-codex-high() { _codex_run gpt-5.3-codex high "$@" }
-codex-52()          { _codex_run gpt-5.2 "" "$@" }
-codex-52-low()      { _codex_run gpt-5.2 low "$@" }
-codex-52-med()      { _codex_run gpt-5.2 medium "$@" }
-codex-52-high()     { _codex_run gpt-5.2 high "$@" }

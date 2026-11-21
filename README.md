@@ -963,13 +963,9 @@ Source the scripts from `.zshrc` as shown in [`zshrc.example`](zshrc.example).
 
 ### Codex CLI Shortcuts
 
-[`zshrc.example`](zshrc.example) includes model/effort aliases for Codex CLI,
-for example `codex-55`, `codex-55-low`, `codex-55-med`, and `codex-55-high`.
-Keep these aliases in the shell template rather than hard-coding them into
-project-local scripts.
-
-`sol`, `terra`, `luna`, and `astra` run `gpt-6-sol`, `gpt-5.6-terra`,
-`gpt-6-luna`, and `gpt-6-astra` at medium reasoning effort. Like the Claude
+[`scripts/aliases.sh`](scripts/aliases.sh) defines model/effort shortcuts for Codex CLI.
+`sol`, `terra`, `luna`, and `astra` run `gpt-6.2-sol`, `gpt-6.1-terra`,
+`gpt-6-luna`, and `gpt-6.2-astra` at medium reasoning effort. Like the Claude
 wrappers, all Codex wrappers take an optional effort word as the first
 argument: low, med[ium], hi[gh], x[hi[gh]], m[ax]. They run with `--no-daemon`,
 so every session uses exactly the model and effort it was launched with; Codex's
